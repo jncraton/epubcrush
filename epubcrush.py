@@ -5,6 +5,7 @@ from xml.etree import ElementTree, ElementInclude
 import argparse
 import os
 
+
 def crush_epub(filename: str):
     file_allow = "mimetype|.*.xhtml|.*.xml|.*.ncx|.*xhtml|.*html|.*htm|.*.opf"
 
@@ -57,9 +58,15 @@ def crush_epub(filename: str):
 
     run(["advzip", "-z", "-4", filename])
 
-ap = argparse.ArgumentParser(description="Compress EPUB Files")
-ap.add_argument("files", nargs="+", help="List of EPUB files")
-args = ap.parse_args()
 
-for filename in args.files:
-    crush_epub(filename)
+def main():
+    ap = argparse.ArgumentParser(description="Compress EPUB Files")
+    ap.add_argument("files", nargs="+", help="List of EPUB files")
+    args = ap.parse_args()
+
+    for filename in args.files:
+        crush_epub(filename)
+
+
+if __name__ == "__main__":
+    main()
