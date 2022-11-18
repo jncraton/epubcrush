@@ -1,4 +1,4 @@
 all:
 
 format:
-	black epubcrush.py
+	black epubcrush/epubcrush.py
