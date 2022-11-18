@@ -27,7 +27,7 @@ with ZipFile("out.epub", "w", compression=ZIP_DEFLATED, compresslevel=9) as newe
     with ZipFile("t.epub") as epub:
         for file in epub.namelist():
             if re.match(file_allow, file):
-                if file.endswith("html"):
+                if file.endswith("html") or file.endswith("htm"):
                     xml = epub.open(file).read().decode("utf8")
 
                     # Remove the default namespace definition
