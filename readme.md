@@ -1,6 +1,8 @@
 EPUB Crush
 ==========
 
+[![PyPI version](https://badge.fury.io/py/epubcrush.svg)](https://badge.fury.io/py/epubcrush)
+
 Removes media content and compresses [EPUB](https://en.wikipedia.org/wiki/EPUB) files to reduce size.
 
 By default, all images, fonts, scipts, and styles will be removed from the EPUB.
