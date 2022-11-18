@@ -2,6 +2,11 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from subprocess import run
 import re
 from xml.etree import ElementTree, ElementInclude
+import argparse
+
+ap = argparse.ArgumentParser(description="Compress EPUB Files")
+ap.add_argument("files", nargs="+", help="List of EPUB files")
+args = ap.parse_args()
 
 file_allow = "mimetype|.*.xhtml|.*.xml|.*.ncx|.*xhtml|.*html|.*htm|.*.opf"
 
