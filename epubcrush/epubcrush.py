@@ -72,7 +72,6 @@ def clean_xml(xml: str) -> str:
     xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
     xml = ElementTree.canonicalize(
         xml,
-        strip_text=True,
         exclude_tags=exclude_tags,
         exclude_attrs=exclude_attrs,
     )
