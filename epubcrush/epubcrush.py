@@ -78,7 +78,7 @@ def clean_xml(xml: str):
     # Ensure correct namespace definition
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
     # Replace images with their alt text
-    xml = re.sub(r'<img alt="(.*)"></img>', "<p>\g<1></p>", xml)
+    xml = re.sub(r'<img alt="(.*)"></img>', r"<p>\g<1></p>", xml)
 
     return xml
 
