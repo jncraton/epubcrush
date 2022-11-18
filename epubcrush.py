@@ -2,7 +2,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import re
 from xml.etree import ElementTree, ElementInclude
 
-file_allow = "mimetype|.*.xhtml|.*.xml|.*toc.ncx|.*xhtml|.*html|.*content.opf"
+file_allow = "mimetype|.*.xhtml|.*.xml|.*.ncx|.*xhtml|.*html|.*htm|.*.opf"
 
 exclude_tags = [
     "link",
