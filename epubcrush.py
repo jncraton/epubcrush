@@ -1,4 +1,5 @@
 from zipfile import ZipFile, ZIP_DEFLATED
+from subprocess import run
 import re
 from xml.etree import ElementTree, ElementInclude
 
@@ -47,3 +48,5 @@ with ZipFile("out.epub", "w", compression=ZIP_DEFLATED, compresslevel=9) as newe
                     newepub.writestr(file, xml)
                 else:
                     newepub.writestr(file, epub.read(file))
+
+run(["advzip", "-z", "-4", "out.epub"])
