@@ -65,6 +65,7 @@ def clean_xml(xml: str) -> str:
         "src",
         "height",
         "width",
+        "{http://www.idpf.org/2007/ops}type",
     ]
 
     # Remove the default namespace definition
