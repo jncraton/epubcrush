@@ -64,11 +64,19 @@ def repack(filename):
 def main():
     ap = argparse.ArgumentParser(description="Compress EPUB Files")
     ap.add_argument("files", nargs="+", help="List of EPUB files")
+    ap.add_argument(
+        "--advcomp",
+        "-z",
+        action="store_true",
+        help="Recompress using advcomp",
+    )
+
     args = ap.parse_args()
 
     for filename in args.files:
         crush_epub(filename)
-        repack(filename)
+        if args.advcomp:
+            repack(filename)
 
 
 if __name__ == "__main__":
