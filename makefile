@@ -2,7 +2,7 @@ all:
 
 format:
 	black epubcrush/epubcrush.py
-	black epubcrush/setup.py
+	black setup.py
 
 upload:
 	python3 setup.py sdist bdist_wheel
