@@ -31,6 +31,21 @@ def clean_xml(xml: str):
 
     >>> clean_xml('<html></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+
+    >>> clean_xml('<html><link></link></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+
+    >>> clean_xml('<html><style></style></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+
+    >>> clean_xml('<html><script></script></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+
+    >>> clean_xml('<html><p class="a">test</p></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
+
+    >>> clean_xml('<html><img src="" alt="test"/></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
     """
 
     exclude_tags = [
