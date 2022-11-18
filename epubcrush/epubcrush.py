@@ -6,7 +6,7 @@ import argparse
 import os
 
 
-def crush_epub(filename: str):
+def crush_epub(filename: str) -> None:
     file_allow = "mimetype|.*.xhtml|.*.xml|.*.ncx|.*xhtml|.*html|.*htm|.*.opf"
 
     backup_filename = f"{filename}.bak.epub"
@@ -26,7 +26,7 @@ def crush_epub(filename: str):
                         newepub.writestr(file, epub.read(file))
 
 
-def clean_xml(xml: str):
+def clean_xml(xml: str) -> str:
     """Cleans unwanted XML tags
 
     >>> clean_xml('<html></html>')
@@ -83,11 +83,11 @@ def clean_xml(xml: str):
     return xml
 
 
-def repack(filename):
+def repack(filename: str) -> None:
     run(["advzip", "-z", "-4", filename])
 
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(description="Compress EPUB Files")
     ap.add_argument("files", nargs="+", help="List of EPUB files")
     ap.add_argument(
