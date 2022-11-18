@@ -2,7 +2,7 @@ EPUB Crush
 ==========
 
 [![PyPI version](https://badge.fury.io/py/epubcrush.svg)](https://badge.fury.io/py/epubcrush)
-[![Test](https://github.com/jncraton/epubcrush/actions/workflows/test.yml/badge.svg)](https://github.com/jncraton/epubcrush/actions/workflows/test.yml)
+[![Test](https://github.com/jncraton/epubcrush/actions/workflows/build.yml/badge.svg)](https://github.com/jncraton/epubcrush/actions/workflows/build.yml)
 
 Removes media content and compresses [EPUB](https://en.wikipedia.org/wiki/EPUB) files to reduce size.
 
