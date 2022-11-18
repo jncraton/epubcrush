@@ -1,7 +1,7 @@
 all:
 
 test:
-	python3 -m doctest epubcrush.py
+	python3 -m doctest epubcrush/epubcrush.py
 
 format:
 	black epubcrush/epubcrush.py
