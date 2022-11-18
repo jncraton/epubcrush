@@ -9,6 +9,24 @@ import os
 def crush_epub(filename: str):
     file_allow = "mimetype|.*.xhtml|.*.xml|.*.ncx|.*xhtml|.*html|.*htm|.*.opf"
 
+    backup_filename = f"{filename}.bak.epub"
+    os.rename(filename, backup_filename)
+
+    with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
+        with ZipFile(backup_filename) as epub:
+            for file in epub.namelist():
+                if re.match(file_allow, file):
+                    if file.endswith("html") or file.endswith("htm"):
+                        xml = epub.open(file).read().decode("utf8")
+
+                        xml = clean_xml(xml)
+
+                        newepub.writestr(file, xml)
+                    else:
+                        newepub.writestr(file, epub.read(file))
+
+
+def clean_xml(xml: str):
     exclude_tags = [
         "link",
         "script",
@@ -28,33 +46,20 @@ def crush_epub(filename: str):
         "width",
     ]
 
-    backup_filename = f"{filename}.bak.epub"
-    os.rename(filename, backup_filename)
+    # Remove the default namespace definition
+    xml = re.sub(r"<html.*>", "<html>", xml, count=1)
+    xml = ElementTree.canonicalize(
+        xml,
+        strip_text=True,
+        exclude_tags=exclude_tags,
+        exclude_attrs=exclude_attrs,
+    )
+    # Ensure correct namespace definition
+    xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
+    # Replace images with their alt text
+    xml = re.sub(r'<img alt="(.*)"></img>', "<p>\g<1></p>", xml)
 
-    with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
-        with ZipFile(backup_filename) as epub:
-            for file in epub.namelist():
-                if re.match(file_allow, file):
-                    if file.endswith("html") or file.endswith("htm"):
-                        xml = epub.open(file).read().decode("utf8")
-
-                        # Remove the default namespace definition
-                        xml = re.sub(r"<html.*>", "<html>", xml, count=1)
-                        xml = ElementTree.canonicalize(
-                            xml,
-                            strip_text=True,
-                            exclude_tags=exclude_tags,
-                            exclude_attrs=exclude_attrs,
-                        )
-                        # Ensure correct namespace definition
-                        xml = re.sub(
-                            r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml
-                        )
-                        # Replace images with their alt text
-                        xml = re.sub(r'<img alt="(.*)"></img>', "<p>\g<1></p>", xml)
-                        newepub.writestr(file, xml)
-                    else:
-                        newepub.writestr(file, epub.read(file))
+    return xml
 
 
 def repack(filename):
