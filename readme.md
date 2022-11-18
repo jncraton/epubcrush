@@ -1,14 +1,22 @@
+EPUB Repacker
+=============
+
+Repacks [EPUB](https://en.wikipedia.org/wiki/EPUB) files to reduce size.
+
+By default, all images, fonts, scipts, and styles will be removed from the EPUB.
+
 Method of Operation
 -------------------
 
 - Iterate files in container
-- Remove all image files
-- Remove all styles
+- Remove all files that are not part of the document text or part of the EPUB structure
 - Parse XML files
   - Remove the following tags
-    - script
+    - link
+    - meta
     - style
-    - img
-    - video
+    - picture
     - audio
-  - Remove all tag attributes in HTML body
+    - video
+    - script
+  - Replace `img` tags with their alt text in a `p` tag
