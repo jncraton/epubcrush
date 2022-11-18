@@ -27,6 +27,12 @@ def crush_epub(filename: str):
 
 
 def clean_xml(xml: str):
+    """Cleans unwanted XML tags
+
+    >>> clean_xml('<html></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+    """
+
     exclude_tags = [
         "link",
         "script",
@@ -47,7 +53,7 @@ def clean_xml(xml: str):
     ]
 
     # Remove the default namespace definition
-    xml = re.sub(r"<html.*>", "<html>", xml, count=1)
+    xml = re.sub(r"<html.*?>", "<html>", xml, count=1)
     xml = ElementTree.canonicalize(
         xml,
         strip_text=True,
