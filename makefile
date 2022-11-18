@@ -1,4 +1,4 @@
 all:
 
 format:
-	black epubpacker.py
+	black epubcrush.py
