@@ -9,6 +9,7 @@ format:
 
 lint:
 	flake8 --max-line-length 88 epubcrush/epubcrush.py
+	mypy epubcrush/epubcrush.py
 
 upload:
 	python3 setup.py sdist bdist_wheel
@@ -18,5 +19,6 @@ clean:
 	rm -rf tmp
 	rm -rf epubcrush.egg-info
 	rm -rf epubcrush/__pycache__
+	rm -rf .mypy_cache
 	rm -rf dist
 	rm -rf build
