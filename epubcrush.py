@@ -56,6 +56,8 @@ def crush_epub(filename: str):
                     else:
                         newepub.writestr(file, epub.read(file))
 
+
+def repack(filename):
     run(["advzip", "-z", "-4", filename])
 
 
@@ -66,6 +68,7 @@ def main():
 
     for filename in args.files:
         crush_epub(filename)
+        repack(filename)
 
 
 if __name__ == "__main__":
