@@ -8,7 +8,6 @@ exclude_tags = [
     "link",
     "script",
     "style",
-    "img",
     "picture",
     "audio",
     "video",
@@ -19,6 +18,9 @@ exclude_attrs = [
     "class",
     "id",
     "style",
+    "src",
+    "height",
+    "width",
 ]
 
 with ZipFile("out.epub", "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
@@ -40,6 +42,8 @@ with ZipFile("out.epub", "w", compression=ZIP_DEFLATED, compresslevel=9) as newe
                     xml = re.sub(
                         r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml
                     )
+                    # Replace images with their alt text
+                    xml = re.sub(r'<img alt="(.*)"></img>', "<p>\g<1></p>", xml)
                     newepub.writestr(file, xml)
                 else:
                     newepub.writestr(file, epub.read(file))
