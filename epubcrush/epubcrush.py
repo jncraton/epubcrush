@@ -68,7 +68,7 @@ def clean_xml(xml: str):
     ]
 
     # Remove the default namespace definition
-    xml = re.sub(r"<html.*?>", "<html>", xml, count=1)
+    xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
     xml = ElementTree.canonicalize(
         xml,
         strip_text=True,
