@@ -31,7 +31,7 @@ with ZipFile("out.epub", "w", compression=ZIP_DEFLATED, compresslevel=9) as newe
                     xml = epub.open(file).read().decode("utf8")
 
                     # Remove the default namespace definition
-                    xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
+                    xml = re.sub(r"<html.*>", "<html>", xml, count=1)
                     xml = ElementTree.canonicalize(
                         xml,
                         strip_text=True,
