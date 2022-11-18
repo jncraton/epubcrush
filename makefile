@@ -7,6 +7,9 @@ format:
 	black epubcrush/epubcrush.py
 	black setup.py
 
+lint:
+	flake8 --max-line-length 88 epubcrush/epubcrush.py
+
 upload:
 	python3 setup.py sdist bdist_wheel
 	python3 -m twine upload dist/*
