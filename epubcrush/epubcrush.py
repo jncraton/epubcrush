@@ -65,7 +65,6 @@ def clean_xml(xml: str) -> str:
         "src",
         "height",
         "width",
-        "role",
         "{http://www.idpf.org/2007/ops}type",
     ]
 
