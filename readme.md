@@ -8,6 +8,16 @@ Removes media content and compresses [EPUB](https://en.wikipedia.org/wiki/EPUB) 
 
 By default, all images, fonts, scipts, and styles will be removed from the EPUB.
 
+Performance
+-----------
+
+| File | Original | txt | txtz | Crushed | Ratio |
+| ---- | -------- | --- | ---- | ------- | ----- |
+|    1 |  584.504 |  22 |    9 |  22.305 |  3.8% |
+|    2 |  589.496 |  88 |   30 |  46.625 |  7.9% |
+|    3 |   87.098 |  89 |   34 |   39.31 | 45.1% |
+|    4 |  589.702 |  80 |   30 |  40.422 |  6.9% |
+
 Why?
 -----
 
