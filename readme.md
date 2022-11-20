@@ -11,12 +11,12 @@ By default, all images, fonts, scipts, and styles will be removed from the EPUB.
 Performance
 -----------
 
-| File | Original | txt | txtz | Crushed | Ratio |
-| ---- | -------- | --- | ---- | ------- | ----- |
-|    1 |  584.504 |  22 |    9 |  22.305 |  3.8% |
-|    2 |  589.496 |  88 |   30 |  46.625 |  7.9% |
-|    3 |   87.098 |  89 |   34 |   39.31 | 45.1% |
-|    4 |  589.702 |  80 |   30 |  40.422 |  6.9% |
+| File | Original | txt   | txtz  | Crushed | Ratio |
+| ---- | -------- | ----- | ----- | ------- | ----- |
+|    1 |    584kB |  22kB |   9kB |    22kB |  3.8% |
+|    2 |    589kB |  88kB |  30kB |    46kB |  7.8% |
+|    3 |     87kB |  89kB |  34kB |    39kB | 44.8% |
+|    4 |    589kB |  80kB |  30kB |    40kB |  6.8% |
 
 Why?
 -----
