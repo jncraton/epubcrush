@@ -24,6 +24,5 @@ for i, url in enumerate(urls):
 
     epubcrush.crush_epub(filename)
     new_size = os.stat(filename).st_size / 1000
-    #print(original_size, new_size, new_size/original_size, txt_size, txtz_size)
 
     print(f'| {i+1:4} | {original_size:8} | {new_size:7} | {txt_size:3} | {txtz_size:4} |') 
