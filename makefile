@@ -4,11 +4,11 @@ test:
 	python3 -m doctest epubcrush/epubcrush.py
 
 format:
-	black epubcrush/epubcrush.py
+	black epubcrush/epubcrush.py compare.py
 	black setup.py
 
 lint:
-	flake8 --max-line-length 88 epubcrush/epubcrush.py
+	flake8 --max-line-length 88 epubcrush/epubcrush.py compare.py
 	mypy epubcrush/epubcrush.py
 
 upload:
