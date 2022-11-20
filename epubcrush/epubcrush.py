@@ -61,6 +61,7 @@ def clean_xml(xml: str) -> str:
     exclude_attrs = [
         "class",
         "style",
+        "{http://www.idpf.org/2007/ops}type",
     ]
 
     # Remove the default namespace definition
