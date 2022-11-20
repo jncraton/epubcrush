@@ -14,12 +14,12 @@ urls = [
     "p-t-barnum_the-art-of-money-getting_advanced.epub",
 ]
 
-print("| File | Original | txt | txtz | Crushed | Ratio |")
-print("| ---- | -------- | --- | ---- | ------- | ----- |")
+print("| File | Original | txt   | txtz  | Crushed | Ratio |")
+print("| ---- | -------- | ----- | ----- | ------- | ----- |")
 
 for i, url in enumerate(urls):
     filename, headers = urllib.request.urlretrieve(url)
-    original_size = os.stat(filename).st_size / 1000
+    original_size = os.stat(filename).st_size // 1000
 
     filename_txt = filename + ".txt"
     subprocess.run(
@@ -32,9 +32,9 @@ for i, url in enumerate(urls):
     txtz_size = os.stat(filename_txtz).st_size // 1000
 
     epubcrush.crush_epub(filename)
-    new_size = os.stat(filename).st_size / 1000
+    new_size = os.stat(filename).st_size // 1000
 
     print(
-        f"| {i+1:4} | {original_size:8} | {txt_size:3} | {txtz_size:4} "
-        f"| {new_size:7} | {(new_size/original_size):5.01%} |"
+        f"| {i+1:4} | {original_size:6}kB | {txt_size:3}kB | {txtz_size:3}kB "
+        f"| {new_size:5}kB | {(new_size/original_size):5.1%} |"
     )
