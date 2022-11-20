@@ -15,6 +15,7 @@ urls = [
 ]
 
 print("| File | Original | txt | txtz | Crushed | Ratio |")
+print("| ---- | -------- | --- | ---- | ------- | ----- |")
 
 for i, url in enumerate(urls):
     filename, headers = urllib.request.urlretrieve(url)
