@@ -4,10 +4,14 @@ import epubcrush
 import subprocess
 
 urls = [
+    "https://standardebooks.org/ebooks/james-joyce/poetry/downloads/"
+    "james-joyce_poetry.epub",
     "https://standardebooks.org/ebooks/"
     "karl-marx_friedrich-engels/the-communist-manifesto/samuel-moore/downloads/"
     "karl-marx_friedrich-engels_the-communist-manifesto_samuel-moore.epub",
     "https://www.gutenberg.org/cache/epub/41/pg41-images-3.epub",
+    "https://standardebooks.org/ebooks/p-t-barnum/the-art-of-money-getting/downloads/"
+    "p-t-barnum_the-art-of-money-getting_advanced.epub",
 ]
 
 print("| File | Original | Crushed | txt | txtz |")
