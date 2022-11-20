@@ -7,7 +7,7 @@ import os
 
 
 def crush_epub(filename: str) -> None:
-    file_allow = "mimetype|.*.xhtml|.*.xml|.*.ncx|.*xhtml|.*html|.*htm|.*.opf"
+    file_allow = "(mimetype|.*ncx|.*opf|.*xml|.*xhtml|.*html|.*htm)$"
 
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
