@@ -59,6 +59,7 @@ def clean_xml(xml: str) -> str:
         "audio",
         "video",
         "svg",
+        "{http://www.w3.org/2000/svg}svg",
         "meta",
     ]
 
