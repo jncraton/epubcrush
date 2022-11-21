@@ -41,6 +41,9 @@ def clean_xml(xml: str) -> str:
     >>> clean_xml('<html><script></script></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
 
+    >>> clean_xml('<html><svg></svg></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+
     >>> clean_xml('<html><p class="a">test</p></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
 
@@ -55,6 +58,7 @@ def clean_xml(xml: str) -> str:
         "picture",
         "audio",
         "video",
+        "svg",
         "meta",
     ]
 
