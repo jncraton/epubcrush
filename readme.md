@@ -8,6 +8,15 @@ Removes media content and compresses [EPUB](https://en.wikipedia.org/wiki/EPUB) 
 
 By default, all images, fonts, scipts, and styles will be removed from the EPUB.
 
+Installation
+------------
+
+This package is available via PyPI and can be installed from there.
+
+```sh
+pip install epubcrush
+```
+
 Performance
 -----------
 
