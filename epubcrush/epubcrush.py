@@ -49,6 +49,9 @@ def clean_xml(xml: str) -> str:
 
     >>> clean_xml('<html><img src="" alt="test"/></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
+
+    >>> clean_xml('<html><img src=""/></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
     """
 
     exclude_tags = [
@@ -80,6 +83,7 @@ def clean_xml(xml: str) -> str:
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
     # Replace images with their alt text
     xml = re.sub(r'<img.* alt="(.*?)".*></img>', r"<p>\g<1></p>", xml)
+    xml = re.sub(r"<img.*>.*?</img>", "", xml)
 
     return xml
 
