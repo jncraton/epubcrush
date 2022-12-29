@@ -6,7 +6,7 @@ import argparse
 import os
 
 
-def crush_epub(filename: str, keep_images=False) -> None:
+def crush_epub(filename: str, keep_images=False, quality=100) -> None:
     allowed_files = [
         "mimetype",
         ".*ncx",
@@ -35,6 +35,23 @@ def crush_epub(filename: str, keep_images=False) -> None:
                         xml = clean_xml(xml, keep_images)
 
                         newepub.writestr(file, xml)
+                    elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
+                        jpeg = epub.extract(file, "/tmp")
+                        compressed_jpeg = f"{jpeg}.comp.jpeg"
+                        run(
+                            [
+                                "/opt/mozjpeg/bin/cjpeg",
+                                "-quality",
+                                str(quality),
+                                "-progressive",
+                                "-quant-table",
+                                "2",
+                                "-outfile",
+                                compressed_jpeg,
+                                jpeg,
+                            ]
+                        )
+                        newepub.write(compressed_jpeg, file)
                     else:
                         newepub.writestr(file, epub.read(file))
 
@@ -122,11 +139,18 @@ def main() -> None:
         action="store_true",
         help="Keep images in output",
     )
+    ap.add_argument(
+        "--quality",
+        "-q",
+        type=int,
+        default=100,
+        help="Quality to use for images. 0-100 scale similar to JPEG.",
+    )
 
     args = ap.parse_args()
 
     for filename in args.files:
-        crush_epub(filename, keep_images=args.images)
+        crush_epub(filename, keep_images=args.images, quality=args.quality)
         if args.advcomp:
             repack(filename)
 
