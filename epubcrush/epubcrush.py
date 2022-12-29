@@ -38,24 +38,32 @@ def crush_epub(filename: str, keep_images=False, quality=100) -> None:
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
                         jpeg = epub.extract(file, "/tmp")
                         compressed_jpeg = f"{jpeg}.comp.jpeg"
-                        for cjpeg in ["/opt/mozjpeg/bin/cjpeg", "cjpeg"]:
-                            try:
-                                run(
-                                    [
-                                        "/opt/mozjpeg/bin/cjpeg",
-                                        "-quality",
-                                        str(quality),
-                                        "-progressive",
-                                        "-quant-table",
-                                        "2",
-                                        "-outfile",
-                                        compressed_jpeg,
-                                        jpeg,
-                                    ]
-                                )
-                                break
-                            except FileNotFoundError:
-                                continue
+                        try:
+                            run(
+                                [
+                                    "/opt/mozjpeg/bin/cjpeg",
+                                    "-quality",
+                                    str(quality),
+                                    "-progressive",
+                                    "-quant-table",
+                                    "2",
+                                    "-outfile",
+                                    compressed_jpeg,
+                                    jpeg,
+                                ]
+                            )
+                        except FileNotFoundError:
+                            run(
+                                [
+                                    "cjpeg",
+                                    "-quality",
+                                    str(quality),
+                                    "-progressive",
+                                    "-outfile",
+                                    compressed_jpeg,
+                                    jpeg,
+                                ]
+                            )
                         newepub.write(compressed_jpeg, file)
                     else:
                         newepub.writestr(file, epub.read(file))
