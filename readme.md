@@ -20,12 +20,12 @@ pip install epubcrush
 Performance
 -----------
 
-| File | Original |  txt  | txtz  |    Images    |  No Images   |
-| ---- | -------- | ----- | ----- | ------------ | ------------ |
-|    1 |    584kB |  22kB |   9kB |  579kB (99%) |   22kB ( 4%) |
-|    2 |    589kB |  88kB |  30kB |  583kB (99%) |   46kB ( 8%) |
-|    3 |     87kB |  89kB |  34kB |   76kB (87%) |   39kB (45%) |
-|    4 |    589kB |  80kB |  30kB |   40kB ( 7%) |   40kB ( 7%) |
+| File | Original |  txt  | txtz  | Images q=100 | Images q=50  |  No Images   |
+| ---- | -------- | ----- | ----- | ------------ | ------------ | ------------ |
+|    1 |    584kB |  22kB |   9kB |  579kB (99%) |  289kB (49%) |   22kB ( 4%) |
+|    2 |    589kB |  88kB |  30kB |  583kB (99%) |  371kB (63%) |   46kB ( 8%) |
+|    3 |     87kB |  89kB |  34kB |   76kB (87%) |   76kB (87%) |   39kB (45%) |
+|    4 |    589kB |  80kB |  30kB |   40kB ( 7%) |   40kB ( 7%) |   40kB ( 7%) |
 
 Why?
 -----
