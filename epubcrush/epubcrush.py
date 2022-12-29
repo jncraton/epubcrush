@@ -6,7 +6,9 @@ import argparse
 import os
 
 
-def crush_epub(filename: str, images=False, quality=100, styles=False) -> None:
+def crush_epub(
+    filename: str, images=False, quality=100, styles=False, fonts=False
+) -> None:
     allowed_files = [
         "mimetype",
         ".*ncx",
@@ -22,6 +24,9 @@ def crush_epub(filename: str, images=False, quality=100, styles=False) -> None:
 
     if styles:
         allowed_files += [".*css"]
+
+    if fonts:
+        allowed_files += [".*ttf", ".*woff", ".*otf"]
 
     file_allow = f"({'|'.join(allowed_files)})$"
 
@@ -162,6 +167,12 @@ def main() -> None:
         help="Keep styles in output",
     )
     ap.add_argument(
+        "--fonts",
+        "-f",
+        action="store_true",
+        help="Keep fonts in output",
+    )
+    ap.add_argument(
         "--quality",
         "-q",
         type=int,
@@ -173,7 +184,11 @@ def main() -> None:
 
     for filename in args.files:
         crush_epub(
-            filename, images=args.images, styles=args.styles, quality=args.quality
+            filename,
+            images=args.images,
+            styles=args.styles,
+            quality=args.quality,
+            fonts=args.fonts,
         )
         if args.advcomp:
             repack(filename)
