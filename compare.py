@@ -28,7 +28,7 @@ for i, url in enumerate(urls):
     txt_size = os.stat(filename_txt).st_size // 1000
 
     filename_txtz = filename + ".txtz"
-    subprocess.run(["advzip", "--add", filename_txtz, filename_txt])
+    subprocess.run(["advzip", "--quiet", "--add", filename_txtz, filename_txt])
     txtz_size = os.stat(filename_txtz).st_size // 1000
 
     epubcrush.crush_epub(filename)
