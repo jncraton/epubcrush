@@ -20,12 +20,12 @@ pip install epubcrush
 Performance
 -----------
 
-| File | Original | txt   | txtz  | Crushed | Ratio |
-| ---- | -------- | ----- | ----- | ------- | ----- |
-|    1 |    584kB |  22kB |   9kB |    22kB |  3.8% |
-|    2 |    589kB |  88kB |  30kB |    46kB |  7.8% |
-|    3 |     87kB |  89kB |  34kB |    39kB | 44.8% |
-|    4 |    589kB |  80kB |  30kB |    40kB |  6.8% |
+| File | Original |  txt  | txtz  |    Images    |  No Images   |
+| ---- | -------- | ----- | ----- | ------------ | ------------ |
+|    1 |    584kB |  22kB |   9kB |  579kB (99%) |   22kB ( 4%) |
+|    2 |    589kB |  88kB |  30kB |  583kB (99%) |   46kB ( 8%) |
+|    3 |     87kB |  89kB |  34kB |   76kB (87%) |   39kB (45%) |
+|    4 |    589kB |  80kB |  30kB |   40kB ( 7%) |   40kB ( 7%) |
 
 Why?
 -----
