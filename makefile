@@ -1,6 +1,6 @@
 all:
 
-test:
+test: lint
 	python3 -m doctest epubcrush/epubcrush.py
 	python3 compare.py
 
