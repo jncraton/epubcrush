@@ -1,4 +1,4 @@
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED
 from subprocess import run
 import re
 from xml.etree import ElementTree
@@ -73,6 +73,10 @@ def crush_epub(
                                 ]
                             )
                         newepub.write(compressed_jpeg, file)
+                    elif file == "mimetype":
+                        newepub.writestr(
+                            file, epub.read(file), compress_type=ZIP_STORED
+                        )
                     else:
                         newepub.writestr(file, epub.read(file))
 
