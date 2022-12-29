@@ -14,8 +14,12 @@ urls = [
     "p-t-barnum_the-art-of-money-getting_advanced.epub",
 ]
 
-print("| File | Original |  txt  | txtz  |    Images    |  No Images   |")
-print("| ---- | -------- | ----- | ----- | ------------ | ------------ |")
+print(
+    "| File | Original |  txt  | txtz  | Images q=100 | Images q=50  |  No Images   |"
+)
+print(
+    "| ---- | -------- | ----- | ----- | ------------ | ------------ | ------------ |"
+)
 
 for i, url in enumerate(urls):
     filename, headers = urllib.request.urlretrieve(url)
@@ -31,14 +35,18 @@ for i, url in enumerate(urls):
     subprocess.run(["advzip", "--quiet", "--add", filename_txtz, filename_txt])
     txtz_size = os.stat(filename_txtz).st_size // 1000
 
-    epubcrush.crush_epub(filename, keep_images=True)
-    images_size = os.stat(filename).st_size // 1000
+    epubcrush.crush_epub(filename, keep_images=True, quality=100)
+    images_100_size = os.stat(filename).st_size // 1000
+
+    epubcrush.crush_epub(filename, keep_images=True, quality=50)
+    images_50_size = os.stat(filename).st_size // 1000
 
     epubcrush.crush_epub(filename, keep_images=False)
     new_size = os.stat(filename).st_size // 1000
 
     print(
         f"| {i+1:4} | {original_size:6}kB | {txt_size:3}kB | {txtz_size:3}kB "
-        f"| {images_size:4}kB ({(images_size/original_size):3.0%}) "
+        f"| {images_100_size:4}kB ({(images_100_size/original_size):3.0%}) "
+        f"| {images_50_size:4}kB ({(images_50_size/original_size):3.0%}) "
         f"| {new_size:4}kB ({(new_size/original_size):3.0%}) |"
     )
