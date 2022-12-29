@@ -140,9 +140,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     if not images:
         exclude_tags += ["picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
-    exclude_attrs = [
-        "{http://www.idpf.org/2007/ops}type",
-    ]
+    exclude_attrs = []
 
     if not styles:
         exclude_tags += ["style", "link"]
