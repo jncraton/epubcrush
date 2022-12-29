@@ -1,6 +1,5 @@
 import urllib.request
 import os
-import epubcrush
 import subprocess
 
 urls = [
@@ -35,10 +34,14 @@ for i, url in enumerate(urls):
     subprocess.run(["advzip", "--quiet", "--add", filename_txtz, filename_txt])
     txtz_size = os.stat(filename_txtz).st_size // 1000
 
-    subprocess.run(["python3", "epubcrush/epubcrush.py", "--images", "--quality=100", filename])
+    subprocess.run(
+        ["python3", "epubcrush/epubcrush.py", "--images", "--quality=100", filename]
+    )
     images_100_size = os.stat(filename).st_size // 1000
 
-    subprocess.run(["python3", "epubcrush/epubcrush.py", "--images", "--quality=50", filename])
+    subprocess.run(
+        ["python3", "epubcrush/epubcrush.py", "--images", "--quality=50", filename]
+    )
     images_50_size = os.stat(filename).st_size // 1000
 
     subprocess.run(["python3", "epubcrush/epubcrush.py", filename])
