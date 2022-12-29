@@ -43,6 +43,27 @@ def crush_epub(
                         xml = clean_xml(xml, images, styles)
 
                         newepub.writestr(file, xml)
+                    elif file.endswith("opf"):
+                        xml = epub.open(file).read().decode("utf8")
+
+                        xml = ElementTree.canonicalize(xml)
+                        if not styles:
+                            xml = re.sub(
+                                r"<item .*\.css\".*></item>", "", xml, flags=re.I
+                            )
+                        if not fonts:
+                            xml = re.sub(
+                                r"<item .*\.ttf\".*></item>", "", xml, flags=re.I
+                            )
+                            xml = re.sub(
+                                r"<item .*\.opf\".*></item>", "", xml, flags=re.I
+                            )
+                            xml = re.sub(
+                                r"<item .*\.woff\".*></item>", "", xml, flags=re.I
+                            )
+
+                        newepub.writestr(file, xml)
+
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
                         jpeg = epub.extract(file, "/tmp")
                         compressed_jpeg = f"{jpeg}.comp.jpeg"
