@@ -2,6 +2,7 @@ all:
 
 test:
 	python3 -m doctest epubcrush/epubcrush.py
+	python3 compare.py
 
 format:
 	black epubcrush/epubcrush.py compare.py
