@@ -6,8 +6,21 @@ import argparse
 import os
 
 
-def crush_epub(filename: str) -> None:
-    file_allow = "(mimetype|.*ncx|.*opf|.*xml|.*xhtml|.*html|.*htm)$"
+def crush_epub(filename: str, keep_images=False) -> None:
+    allowed_files = [
+        "mimetype",
+        ".*ncx",
+        ".*opf",
+        ".*xml",
+        ".*xhtml",
+        ".*html",
+        ".*htm",
+    ]
+
+    if keep_images:
+        allowed_files += [".*jpg", ".*png", ".*webp"]
+
+    file_allow = f"({'|'.join(allowed_files)})$"
 
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
@@ -19,14 +32,14 @@ def crush_epub(filename: str) -> None:
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
 
-                        xml = clean_xml(xml)
+                        xml = clean_xml(xml, keep_images)
 
                         newepub.writestr(file, xml)
                     else:
                         newepub.writestr(file, epub.read(file))
 
 
-def clean_xml(xml: str) -> str:
+def clean_xml(xml: str, keep_images=False) -> str:
     """Cleans unwanted XML tags
 
     >>> clean_xml('<html></html>')
@@ -58,13 +71,13 @@ def clean_xml(xml: str) -> str:
         "link",
         "script",
         "style",
-        "picture",
         "audio",
         "video",
-        "svg",
-        "{http://www.w3.org/2000/svg}svg",
         "meta",
     ]
+
+    if not keep_images:
+        exclude_tags += ["picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
     exclude_attrs = [
         "class",
@@ -81,9 +94,11 @@ def clean_xml(xml: str) -> str:
     )
     # Ensure correct namespace definition
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
-    # Replace images with their alt text
-    xml = re.sub(r'<img.* alt="(.*?)".*></img>', r"<p>\g<1></p>", xml)
-    xml = re.sub(r"<img.*>.*?</img>", "", xml)
+
+    if not keep_images:
+        # Replace images with their alt text
+        xml = re.sub(r'<img.* alt="(.*?)".*></img>', r"<p>\g<1></p>", xml)
+        xml = re.sub(r"<img.*>.*?</img>", "", xml)
 
     return xml
 
@@ -101,11 +116,17 @@ def main() -> None:
         action="store_true",
         help="Recompress using advcomp",
     )
+    ap.add_argument(
+        "--images",
+        "-i",
+        action="store_true",
+        help="Keep images in output",
+    )
 
     args = ap.parse_args()
 
     for filename in args.files:
-        crush_epub(filename)
+        crush_epub(filename, keep_images=args.images)
         if args.advcomp:
             repack(filename)
 
