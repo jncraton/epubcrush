@@ -6,7 +6,7 @@ import argparse
 import os
 
 
-def crush_epub(filename: str, keep_images=False, quality=100) -> None:
+def crush_epub(filename: str, images=False, quality=100) -> None:
     allowed_files = [
         "mimetype",
         ".*ncx",
@@ -17,7 +17,7 @@ def crush_epub(filename: str, keep_images=False, quality=100) -> None:
         ".*htm",
     ]
 
-    if keep_images:
+    if images:
         allowed_files += [".*jpg", ".*png", ".*webp"]
 
     file_allow = f"({'|'.join(allowed_files)})$"
@@ -32,7 +32,7 @@ def crush_epub(filename: str, keep_images=False, quality=100) -> None:
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
 
-                        xml = clean_xml(xml, keep_images)
+                        xml = clean_xml(xml, images)
 
                         newepub.writestr(file, xml)
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
@@ -69,7 +69,7 @@ def crush_epub(filename: str, keep_images=False, quality=100) -> None:
                         newepub.writestr(file, epub.read(file))
 
 
-def clean_xml(xml: str, keep_images=False) -> str:
+def clean_xml(xml: str, images=False) -> str:
     """Cleans unwanted XML tags
 
     >>> clean_xml('<html></html>')
@@ -106,7 +106,7 @@ def clean_xml(xml: str, keep_images=False) -> str:
         "meta",
     ]
 
-    if not keep_images:
+    if not images:
         exclude_tags += ["picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
     exclude_attrs = [
@@ -125,7 +125,7 @@ def clean_xml(xml: str, keep_images=False) -> str:
     # Ensure correct namespace definition
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
 
-    if not keep_images:
+    if not images:
         # Replace images with their alt text
         xml = re.sub(r'<img.* alt="(.*?)".*></img>', r"<p>\g<1></p>", xml)
         xml = re.sub(r"<img.*>.*?</img>", "", xml)
@@ -163,7 +163,7 @@ def main() -> None:
     args = ap.parse_args()
 
     for filename in args.files:
-        crush_epub(filename, keep_images=args.images, quality=args.quality)
+        crush_epub(filename, images=args.images, quality=args.quality)
         if args.advcomp:
             repack(filename)
 
