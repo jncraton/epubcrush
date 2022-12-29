@@ -28,7 +28,7 @@ def crush_epub(filename: str, keep_images=False) -> None:
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
         with ZipFile(backup_filename) as epub:
             for file in epub.namelist():
-                if re.match(file_allow, file):
+                if re.match(file_allow, file, flags=re.I):
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
 
