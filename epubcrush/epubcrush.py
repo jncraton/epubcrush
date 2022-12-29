@@ -6,7 +6,7 @@ import argparse
 import os
 
 
-def crush_epub(filename: str, images=False, quality=100) -> None:
+def crush_epub(filename: str, images=False, quality=100, styles=False) -> None:
     allowed_files = [
         "mimetype",
         ".*ncx",
@@ -20,6 +20,9 @@ def crush_epub(filename: str, images=False, quality=100) -> None:
     if images:
         allowed_files += [".*jpg", ".*png", ".*webp"]
 
+    if styles:
+        allowed_files += [".*css"]
+
     file_allow = f"({'|'.join(allowed_files)})$"
 
     backup_filename = f"{filename}.bak.epub"
@@ -32,7 +35,7 @@ def crush_epub(filename: str, images=False, quality=100) -> None:
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
 
-                        xml = clean_xml(xml, images)
+                        xml = clean_xml(xml, images, styles)
 
                         newepub.writestr(file, xml)
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
@@ -69,7 +72,7 @@ def crush_epub(filename: str, images=False, quality=100) -> None:
                         newepub.writestr(file, epub.read(file))
 
 
-def clean_xml(xml: str, images=False) -> str:
+def clean_xml(xml: str, images=False, styles=False) -> str:
     """Cleans unwanted XML tags
 
     >>> clean_xml('<html></html>')
@@ -98,9 +101,7 @@ def clean_xml(xml: str, images=False) -> str:
     """
 
     exclude_tags = [
-        "link",
         "script",
-        "style",
         "audio",
         "video",
         "meta",
@@ -110,10 +111,12 @@ def clean_xml(xml: str, images=False) -> str:
         exclude_tags += ["picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
     exclude_attrs = [
-        "class",
-        "style",
         "{http://www.idpf.org/2007/ops}type",
     ]
+
+    if not styles:
+        exclude_tags += ["style", "link"]
+        exclude_attrs += ["style", "class"]
 
     # Remove the default namespace definition
     xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
@@ -153,6 +156,12 @@ def main() -> None:
         help="Keep images in output",
     )
     ap.add_argument(
+        "--styles",
+        "-s",
+        action="store_true",
+        help="Keep styles in output",
+    )
+    ap.add_argument(
         "--quality",
         "-q",
         type=int,
@@ -163,7 +172,9 @@ def main() -> None:
     args = ap.parse_args()
 
     for filename in args.files:
-        crush_epub(filename, images=args.images, quality=args.quality)
+        crush_epub(
+            filename, images=args.images, styles=args.styles, quality=args.quality
+        )
         if args.advcomp:
             repack(filename)
 
