@@ -26,4 +26,4 @@ clean:
 	rm -rf .mypy_cache
 	rm -rf dist
 	rm -rf build
-	rm -rf epubcheck
+	rm -rf epubcheck-4.2.6 epubcheck.zip
