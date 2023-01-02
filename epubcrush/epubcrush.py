@@ -20,15 +20,15 @@ def crush_epub(
     ]
 
     if images:
-        allowed_files += [".*jpg", ".*png", ".*webp", ".*jpeg", ".*svg"]
+        allowed_files += ["jpg", "png", "webp", "jpeg", "svg"]
 
     if styles:
-        allowed_files += [".*css"]
+        allowed_files += ["css"]
 
     if fonts:
-        allowed_files += [".*ttf", ".*woff", ".*otf"]
+        allowed_files += ["ttf", "woff", "otf"]
 
-    file_allow = f"({'|'.join(allowed_files)})$"
+    file_allow = f"(.*{'|.*'.join(allowed_files)})$"
 
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
