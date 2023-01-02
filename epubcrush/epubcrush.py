@@ -61,6 +61,19 @@ def crush_epub(
                             xml = re.sub(
                                 r"<item .*\.woff\".*></item>", "", xml, flags=re.I
                             )
+                        if not images:
+                            xml = re.sub(
+                                r"<item .*\.png\".*></item>", "", xml, flags=re.I
+                            )
+                            xml = re.sub(
+                                r"<item .*\.jpg\".*></item>", "", xml, flags=re.I
+                            )
+                            xml = re.sub(
+                                r"<item .*\.jpeg\".*></item>", "", xml, flags=re.I
+                            )
+                            xml = re.sub(
+                                r"<item .*\.webp\".*></item>", "", xml, flags=re.I
+                            )
 
                         newepub.writestr(file, xml)
 
