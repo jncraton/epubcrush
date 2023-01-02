@@ -20,7 +20,7 @@ def crush_epub(
     ]
 
     if images:
-        allowed_files += [".*jpg", ".*png", ".*webp"]
+        allowed_files += [".*jpg", ".*png", ".*webp", ".*jpeg", ".*svg"]
 
     if styles:
         allowed_files += [".*css"]
@@ -49,30 +49,60 @@ def crush_epub(
                         xml = ElementTree.canonicalize(xml)
                         if not styles:
                             xml = re.sub(
-                                r"<item .*\.css\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.css\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                         if not fonts:
                             xml = re.sub(
-                                r"<item .*\.ttf\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.ttf\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                             xml = re.sub(
-                                r"<item .*\.opf\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.opf\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                             xml = re.sub(
-                                r"<item .*\.woff\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.woff\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                         if not images:
                             xml = re.sub(
-                                r"<item .*\.png\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.png\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                             xml = re.sub(
-                                r"<item .*\.jpg\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.svg*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                             xml = re.sub(
-                                r"<item .*\.jpeg\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.jpg\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
                             xml = re.sub(
-                                r"<item .*\.webp\".*></item>", "", xml, flags=re.I
+                                r"<(opf:)?item .*\.jpeg\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
+                            )
+                            xml = re.sub(
+                                r"<(opf:)?item .*\.webp\".*></(opf:)?item>",
+                                "",
+                                xml,
+                                flags=re.I,
                             )
 
                         newepub.writestr(file, xml)
