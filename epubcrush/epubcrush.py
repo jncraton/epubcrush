@@ -11,12 +11,12 @@ def crush_epub(
 ) -> None:
     allowed_files = [
         "mimetype",
-        ".*ncx",
-        ".*opf",
-        ".*xml",
-        ".*xhtml",
-        ".*html",
-        ".*htm",
+        "ncx",
+        "opf",
+        "xml",
+        "xhtml",
+        "html",
+        "htm",
     ]
 
     if images:
