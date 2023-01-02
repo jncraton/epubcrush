@@ -92,6 +92,23 @@ def crush_epub(
                                 ]
                             )
                         newepub.write(compressed_jpeg, file)
+                    elif quality < 100 and re.match(r".*png", file, flags=re.I):
+                        png = epub.extract(file, "/tmp")
+                        run(
+                            [
+                                "pngquant",
+                                "--quality",
+                                f"0-{quality}",
+                                "--force",
+                                "--ordered",
+                                "--speed",
+                                "1",
+                                "--ext",
+                                ".png",
+                                png,
+                            ]
+                        )
+                        newepub.write(png, file)
                     elif file == "mimetype":
                         newepub.writestr(
                             file, epub.read(file), compress_type=ZIP_STORED
