@@ -58,7 +58,7 @@ def crush_epub(
                         )
 
                         if not images:
-                            xml = re.sub('properties="svg"', '', xml)
+                            xml = re.sub('properties="svg"', "", xml)
 
                         newepub.writestr(file, xml)
 
