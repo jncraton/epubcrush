@@ -20,8 +20,22 @@ print(
     "| ---- | -------- | ----- | ----- | ------------ | ------------ | ------------ |"
 )
 
+
+def check(epub):
+    status = subprocess.run(
+        [
+            "java",
+            "-jar",
+            "epubcheck-4.2.6/epubcheck.jar",
+            "--quiet",
+            epub,
+        ]
+    )
+    assert status.returncode == 0
+
+
 for i, url in enumerate(urls):
-    filename, headers = urllib.request.urlretrieve(url)
+    filename, headers = urllib.request.urlretrieve(url, filename="/tmp/epubcrush.epub")
     original_size = os.stat(filename).st_size // 1000
 
     filename_txt = filename + ".txt"
@@ -34,6 +48,7 @@ for i, url in enumerate(urls):
     subprocess.run(["advzip", "--quiet", "--add", filename_txtz, filename_txt])
     txtz_size = os.stat(filename_txtz).st_size // 1000
 
+    check(filename)
     subprocess.run(
         ["python3", "epubcrush/epubcrush.py", "--images", "--quality=100", filename]
     )
