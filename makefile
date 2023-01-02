@@ -1,5 +1,8 @@
 all:
 
+epubcheck:
+	wget -q -O epubcheck.zip https://github.com/w3c/epubcheck/releases/download/v4.2.6/epubcheck-4.2.6.zip && unzip -q epubcheck.zip && rm -f epubcheck.zip
+
 test: lint
 	python3 -m doctest epubcrush/epubcrush.py
 	python3 compare.py
@@ -23,3 +26,4 @@ clean:
 	rm -rf .mypy_cache
 	rm -rf dist
 	rm -rf build
+	rm -rf epubcheck
