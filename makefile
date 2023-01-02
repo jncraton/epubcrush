@@ -8,6 +8,7 @@ test: lint epubcheck-4.2.6
 	python3 compare.py
 
 format:
+	python3 -m doctest epubcrush/epubcrush.py
 	black epubcrush/epubcrush.py compare.py
 	black setup.py
 
