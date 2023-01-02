@@ -57,6 +57,9 @@ def crush_epub(
                             flags=re.I,
                         )
 
+                        if not images:
+                            xml = re.sub('properties="svg"', '', xml)
+
                         newepub.writestr(file, xml)
 
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
