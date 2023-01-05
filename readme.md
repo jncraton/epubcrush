@@ -4,7 +4,7 @@ EPUB Crush
 [![PyPI version](https://badge.fury.io/py/epubcrush.svg)](https://badge.fury.io/py/epubcrush)
 [![Test](https://github.com/jncraton/epubcrush/actions/workflows/build.yml/badge.svg)](https://github.com/jncraton/epubcrush/actions/workflows/build.yml)
 
-Removes media content and compresses [EPUB](https://en.wikipedia.org/wiki/EPUB) files to reduce size.
+Compresses [EPUB](https://en.wikipedia.org/wiki/EPUB) files to reduce size.
 
 By default, all images, fonts, scipts, and styles will be removed from the EPUB.
 
@@ -29,12 +29,12 @@ Performance
 Why?
 -----
 
-EPUB is a fine format, but it includes many features that may not be desirable from a privacy or efficiency standpoint. This includes full JavaScript support (did you know that you can use WebGL inside an eBook?). Publishers often choose to include high-res images, custom fonts, styles, and other features that bloat the size of EPUBs beyond what is needed for the text content of a book. This application strips away everything but the plain text content.
+EPUBs may include features that may not be desirable from a privacy or efficiency standpoint. Publishers may choose to include high-res images, custom fonts, styles, scripts, and other features that bloat the size of EPUBs beyond what is needed for the text content of a book. This application strips away everything but the plain text content.
 
-Why not just plain text?
-------------------------
+Why not use plain text?
+-----------------------
 
-EPUB adds a number of useful reading features (table of contents, metadata, etc) that are useful and not available in basic plain text.
+EPUB adds a number of useful reading features (table of contents, metadata, etc) that are useful and not available in basic plain text. EPUBs are also compressed, so they will often be smaller than simple plain text.
 
 Method of Operation
 -------------------
