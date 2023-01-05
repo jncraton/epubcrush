@@ -141,6 +141,9 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     >>> clean_xml('<html><img src="" alt="test"/></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
 
+    >>> clean_xml('<html><img src="" alt="Image"/></html>')
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
+
     >>> clean_xml('<html><img src=""/></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
     """
@@ -173,7 +176,9 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     if not images:
         # Replace images with their alt text
-        xml = re.sub(r'<img.* alt="(.*?)".*></img>', r"<p>\g<1></p>", xml)
+        xml = re.sub(
+            r'<img.* alt="(?!image)(.*?)".*></img>', r"<p>\g<1></p>", xml, flags=re.I
+        )
         xml = re.sub(r"<img.*>.*?</img>", "", xml)
 
     return xml
