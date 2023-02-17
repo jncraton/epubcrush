@@ -195,10 +195,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Compress EPUB Files")
     ap.add_argument("files", nargs="+", help="List of EPUB files")
     ap.add_argument(
-        "--advcomp",
-        "-z",
+        "--fast",
         action="store_true",
-        help="Recompress using advcomp",
+        help="Run faster. Do not recompress using advcomp",
     )
     ap.add_argument(
         "--images",
@@ -236,7 +235,7 @@ def main() -> None:
             quality=args.quality,
             fonts=args.fonts,
         )
-        if args.advcomp:
+        if not args.fast:
             repack(filename)
 
 
