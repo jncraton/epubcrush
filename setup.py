@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setuptools.setup(
     name="epubcrush",
-    version="2.0.0",
+    version="2.0.1",
     author="Jon Craton",
     author_email="jon@joncraton.com",
     description="Compress EPUB files",
