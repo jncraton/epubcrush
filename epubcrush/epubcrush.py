@@ -169,6 +169,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     # Remove the default namespace definition
     xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
+    xml = xml.replace('&nbsp;', ' ')
     xml = ElementTree.canonicalize(
         xml,
         exclude_tags=exclude_tags,
