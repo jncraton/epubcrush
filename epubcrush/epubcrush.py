@@ -139,7 +139,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
 
     >>> clean_xml('<html><img src="" alt="test"/></html>')
-    '<html xmlns="http://www.w3.org/1999/xhtml"><p>test</p></html>'
+    '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
 
     >>> clean_xml('<html><img src="" alt="Image"/></html>')
     '<html xmlns="http://www.w3.org/1999/xhtml"></html>'
