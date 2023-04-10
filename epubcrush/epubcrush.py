@@ -6,21 +6,21 @@ import argparse
 import os
 
 
-def modernize_childrens(text):
+def modernize(text):
     """
-    >>> modernize_childrens("You are queer.")
+    >>> modernize("You are queer.")
     'You are strange.'
-    >>> modernize_childrens("I am a queer boy.")
+    >>> modernize("I am a queer boy.")
     'I am a strange boy.'
-    >>> modernize_childrens("She was feeling gay.")
+    >>> modernize("She was feeling gay.")
     'She was feeling happy.'
-    >>> modernize_childrens("Gay children played.")
+    >>> modernize("Gay children played.")
     'Happy children played.'
-    >>> modernize_childrens("Children played, gaily!")
+    >>> modernize("Children played, gaily!")
     'Children played, happily!'
-    >>> modernize_childrens("Queerer things have happened.")
+    >>> modernize("Queerer things have happened.")
     'Stranger things have happened.'
-    >>> modernize_childrens("We could do with a bit more queerness.")
+    >>> modernize("We could do with a bit more queerness.")
     'We could do with a bit more strangeness.'
     """
 
@@ -94,7 +94,7 @@ def crush_epub(
                         xml = clean_xml(xml, images, styles)
 
                         if modernize:
-                            xml = modernize_childrens(xml)
+                            xml = modernize(xml)
 
                         newepub.writestr(file, xml)
                     elif file.endswith("opf"):
