@@ -58,7 +58,7 @@ def modernize_childrens(text):
 
 
 def crush_epub(
-    filename: str, images=False, quality=100, styles=False, fonts=False
+    filename: str, images=False, quality=100, styles=False, fonts=False, modernize=False
 ) -> None:
     allowed_files = [
         "mimetype",
@@ -92,6 +92,9 @@ def crush_epub(
                         xml = epub.open(file).read().decode("utf8")
 
                         xml = clean_xml(xml, images, styles)
+
+                        if modernize:
+                            xml = modernize_childrens(xml)
 
                         newepub.writestr(file, xml)
                     elif file.endswith("opf"):
@@ -248,6 +251,11 @@ def main() -> None:
         help="Run faster. Do not recompress using advcomp",
     )
     ap.add_argument(
+        "--modernize",
+        action="store_true",
+        help="Attempt to modernize language of older children's literature",
+    )
+    ap.add_argument(
         "--images",
         "-i",
         action="store_true",
@@ -282,6 +290,7 @@ def main() -> None:
             styles=args.styles,
             quality=args.quality,
             fonts=args.fonts,
+            modernize=args.modernize,
         )
         if not args.fast:
             repack(filename)
