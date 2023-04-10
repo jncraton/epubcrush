@@ -18,10 +18,16 @@ def modernize_childrens(text):
     'Happy children played.'
     >>> modernize_childrens("Children played, gaily!")
     'Children played, happily!'
+    >>> modernize_childrens("Queerer things have happened.")
+    'Stranger things have happened.'
+    >>> modernize_childrens("We could do with a bit more queerness.")
+    'We could do with a bit more strangeness.'
     """
 
     word_updates = [
         ("queer", "strange"),
+        ("queerer", "stranger"),
+        ("queerness", "strangeness"),
         ("gaily", "happily"),
         ("gay", "happy"),
         ("midget", "little person"),
