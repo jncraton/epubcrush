@@ -6,6 +6,51 @@ import argparse
 import os
 
 
+def modernize_childrens(text):
+    """
+    >>> modernize_childrens("You are queer.")
+    'You are strange.'
+    >>> modernize_childrens("I am a queer boy.")
+    'I am a strange boy.'
+    >>> modernize_childrens("She was feeling gay.")
+    'She was feeling happy.'
+    >>> modernize_childrens("Gay children played.")
+    'Happy children played.'
+    >>> modernize_childrens("Children played, gaily!")
+    'Children played, happily!'
+    """
+
+    word_updates = [
+        ("queer", "strange"),
+        ("gaily", "happily"),
+        ("gay", "happy"),
+        ("midget", "little person"),
+        ("policeman", "police officer"),
+        ("policemen", "police officers"),
+        ("mailman", "mail carrier"),
+        ("mailmen", "mail carriers"),
+        ("fireman", "fire fighter"),
+        ("firemen", "fire fighters"),
+    ]
+
+    tokens = []
+
+    def modernize_token(token):
+        for orig, new in word_updates:
+            if token == orig:
+                token = new
+            elif token == orig.title():
+                token = new.title()
+            elif token == orig.upper():
+                token = new.upper()
+
+        return token
+
+    tokens = [modernize_token(t) for t in re.findall(r"([\w]+|[^\w]+)", text)]
+
+    return "".join(tokens)
+
+
 def crush_epub(
     filename: str, images=False, quality=100, styles=False, fonts=False
 ) -> None:
