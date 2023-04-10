@@ -27,6 +27,7 @@ def modernize(text):
     word_updates = [
         ("queer", "strange"),
         ("queerer", "stranger"),
+        ("queerest", "strangest"),
         ("queerness", "strangeness"),
         ("gaily", "happily"),
         ("gay", "happy"),
