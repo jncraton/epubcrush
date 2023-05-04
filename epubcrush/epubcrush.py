@@ -187,6 +187,25 @@ def crush_epub(
                     else:
                         newepub.writestr(file, epub.read(file))
 
+def get_nonanchor_text(xml: str):
+    """ Return just plain text context not in <a> tags 
+
+    >>> get_nonanchor_text("hello <a>world</a>")
+    'hello '
+    >>> get_nonanchor_text("<a id=1>hello world</a>")
+    ''
+    >>> get_nonanchor_text("<a id=1><span>hello</span> world</a>")
+    ''
+    >>> get_nonanchor_text("<a id=1>hello</a><p>world</p>")
+    'world'
+    """
+
+    xml = re.sub('<a.*?>.*?</a>', '', xml, flags=re.I|re.M|re.DOTALL)
+    xml = re.sub('<.*?>', '', xml, flags=re.I|re.M|re.DOTALL)
+    xml = re.sub('[\n\r\t ]+',' ', xml, flags=re.M)
+
+    return xml
+
 
 def clean_xml(xml: str, images=False, styles=False) -> str:
     """Cleans unwanted XML tags
