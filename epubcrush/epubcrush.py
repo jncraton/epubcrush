@@ -217,10 +217,24 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         "meta",
     ]
 
+    exclude_pages = [
+        "cover",
+        "title",
+        "frontmatter",
+        "titlepage",
+        "copyright-page",
+        "dedication",
+        "index",
+    ]
+
     if not images:
         exclude_tags += ["img", "picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
     exclude_attrs = []
+
+    # Blank excluded pages (titlepage, dedication, etc)
+    if re.search('epub:type="(' + "|".join(exclude_pages) + ')"', xml):
+        exclude_tags += ["p", "span"]
 
     if not styles:
         exclude_tags += ["style", "link"]
