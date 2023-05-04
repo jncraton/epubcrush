@@ -8,6 +8,10 @@ import os
 
 def modernize_childrens(text):
     """
+    >>> modernize_childrens("I asked the policeman for help.")
+    'I asked the police officer for help.'
+    >>> modernize_childrens("The mailmen arrived.")
+    'The mail carriers arrived.'
     >>> modernize_childrens("You are queer.")
     'You are strange.'
     >>> modernize_childrens("I am a queer boy.")
