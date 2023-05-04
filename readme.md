@@ -46,8 +46,9 @@ Method of Operation
     - link
     - meta
     - style
+    - img
     - picture
     - audio
     - video
     - script
-  - Replace `img` tags with their alt text in a `p` tag
+- Parse opf file removing references to files that no longer exist
