@@ -187,8 +187,9 @@ def crush_epub(
                     else:
                         newepub.writestr(file, epub.read(file))
 
+
 def get_nonanchor_text(xml: str):
-    """ Return just plain text context not in <a> tags 
+    """Return just plain text context not in <a> tags
 
     >>> get_nonanchor_text("hello <a>world</a>")
     'hello '
@@ -200,9 +201,9 @@ def get_nonanchor_text(xml: str):
     'world'
     """
 
-    xml = re.sub('<a.*?>.*?</a>', '', xml, flags=re.I|re.M|re.DOTALL)
-    xml = re.sub('<.*?>', '', xml, flags=re.I|re.M|re.DOTALL)
-    xml = re.sub('[\n\r\t ]+',' ', xml, flags=re.M)
+    xml = re.sub("<a.*?>.*?</a>", "", xml, flags=re.I | re.M | re.DOTALL)
+    xml = re.sub("<.*?>", "", xml, flags=re.I | re.M | re.DOTALL)
+    xml = re.sub("[\n\r\t ]+", " ", xml, flags=re.M)
 
     return xml
 
@@ -259,7 +260,18 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     ]
 
     text_tags = [
-        "p","span","a","ol","ul","table","h1","h2","h3","h4","h5","h6"
+        "p",
+        "span",
+        "a",
+        "ol",
+        "ul",
+        "table",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
     ]
 
     if not images:
@@ -272,11 +284,11 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         exclude_tags += text_tags
 
     # Remove text from pages that are mostly links
-    anchors = re.findall('<a', xml, flags=re.I)
+    anchors = re.findall("<a", xml, flags=re.I)
     text = get_nonanchor_text(xml)
     anchors_per_char = len(anchors) / max(1, len(text))
     is_epub_toc = re.search('type="toc"', xml, flags=re.I)
-    if anchors_per_char > .02 and not is_epub_toc:
+    if anchors_per_char > 0.02 and not is_epub_toc:
         exclude_tags += text_tags
 
     if not styles:
