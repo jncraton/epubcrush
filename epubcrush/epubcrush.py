@@ -311,7 +311,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     )
 
     # Remove page breaks
-    xml = re.sub('<span .*?type="pagebreak".*?></span>', '', xml, flags=re.M|re.I|re.DOTALL)
+    xml = re.sub('<span[^>]+?type="pagebreak"[^>]*></span>', '', xml, flags=re.M|re.I|re.DOTALL)
 
     # Strip whitespace
     xml = re.sub('[\r\n\t]+', '\n', xml, flags=re.M)
