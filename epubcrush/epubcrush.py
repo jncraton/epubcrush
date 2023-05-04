@@ -258,6 +258,10 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         "index",
     ]
 
+    text_tags = [
+        "p","span","a","ol","ul","table","h1","h2","h3","h4","h5","h6"
+    ]
+
     if not images:
         exclude_tags += ["img", "picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
@@ -265,7 +269,15 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     # Blank excluded pages (titlepage, dedication, etc)
     if re.search('epub:type="(' + "|".join(exclude_pages) + ')"', xml):
-        exclude_tags += ["p", "span"]
+        exclude_tags += text_tags
+
+    # Remove text from pages that are mostly links
+    anchors = re.findall('<a', xml, flags=re.I)
+    text = get_nonanchor_text(xml)
+    anchors_per_char = len(anchors) / max(1, len(text))
+    is_epub_toc = re.search('type="toc"', xml, flags=re.I)
+    if anchors_per_char > .02 and not is_epub_toc:
+        exclude_tags += text_tags
 
     if not styles:
         exclude_tags += ["style", "link"]
