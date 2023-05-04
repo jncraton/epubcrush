@@ -278,16 +278,16 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     exclude_attrs = []
 
-    # Blank excluded pages (titlepage, dedication, etc)
-    if re.search('epub:type="(' + "|".join(exclude_pages) + ')"', xml):
-        exclude_tags += text_tags
-
     # Remove text from pages that are mostly links
     anchors = re.findall("<a", xml, flags=re.I)
     text = get_nonanchor_text(xml)
     anchors_per_char = len(anchors) / max(1, len(text))
     is_epub_toc = re.search('type="toc"', xml, flags=re.I)
     if anchors_per_char > 0.02 and not is_epub_toc:
+        exclude_tags += text_tags
+
+    # Blank excluded pages (titlepage, dedication, etc)
+    if re.search('<(nav|body|div).*?epub:type="(' + "|".join(exclude_pages) + ')".*?>', xml):
         exclude_tags += text_tags
 
     if not styles:
@@ -309,6 +309,9 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     xml = re.sub(
         '<nav epub:type="page-list">.*?</nav>', "", xml, flags=re.I | re.M | re.DOTALL
     )
+
+    # Remove page breaks
+    #xml = re.sub('<span .*?type="pagebreak".*?></span>', '', xml, flags=re.M|re.I|re.DOTALL)
 
     # Strip whitespace
     xml = re.sub('[\r\n\t]+', '\n', xml, flags=re.M)
