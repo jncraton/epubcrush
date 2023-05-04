@@ -251,8 +251,6 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     exclude_pages = [
         "cover",
-        "title",
-        "frontmatter",
         "titlepage",
         "copyright-page",
         "dedication",
