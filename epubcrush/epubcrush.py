@@ -263,6 +263,11 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     # Ensure correct namespace definition
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
 
+    # Remove page list used for printing
+    xml = re.sub(
+        '<nav epub:type="page-list">.*?</nav>', "", xml, flags=re.I | re.M | re.DOTALL
+    )
+
     return xml
 
 
