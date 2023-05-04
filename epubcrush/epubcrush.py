@@ -218,7 +218,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     ]
 
     if not images:
-        exclude_tags += ["picture", "svg", "{http://www.w3.org/2000/svg}svg"]
+        exclude_tags += ["img", "picture", "svg", "{http://www.w3.org/2000/svg}svg"]
 
     exclude_attrs = []
 
@@ -236,9 +236,6 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     )
     # Ensure correct namespace definition
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
-
-    if not images:
-        xml = re.sub(r"<img.*>.*?</img>", "", xml)
 
     return xml
 
