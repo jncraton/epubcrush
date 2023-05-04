@@ -310,6 +310,9 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         '<nav epub:type="page-list">.*?</nav>', "", xml, flags=re.I | re.M | re.DOTALL
     )
 
+    # Strip whitespace
+    xml = re.sub('[\r\n\t]+', '\n', xml, flags=re.M)
+
     return xml
 
 
