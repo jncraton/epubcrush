@@ -52,3 +52,4 @@ Method of Operation
     - video
     - script
 - Parse opf file removing references to files that no longer exist
+- Remove print page lists
