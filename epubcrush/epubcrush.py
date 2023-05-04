@@ -120,7 +120,19 @@ def crush_epub(
                             xml = re.sub('properties="svg"', "", xml)
 
                         newepub.writestr(file, xml)
+                    elif file.endswith("ncx"):
+                        xml = epub.open(file).read().decode("utf8")
 
+                        xml = ElementTree.canonicalize(xml)
+
+                        xml = re.sub(
+                            "<pageList>.*?</pageList>",
+                            "",
+                            xml,
+                            flags=re.I | re.M | re.DOTALL,
+                        )
+
+                        newepub.writestr(file, xml)
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
                         jpeg = epub.extract(file, "/tmp")
                         compressed_jpeg = f"{jpeg}.comp.jpeg"
