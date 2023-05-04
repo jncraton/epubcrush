@@ -255,6 +255,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         "copyright-page",
         "dedication",
         "index",
+        "imprint",
     ]
 
     text_tags = [
