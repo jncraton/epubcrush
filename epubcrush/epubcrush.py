@@ -127,6 +127,8 @@ def crush_epub(
                         if not images:
                             xml = re.sub('properties="svg"', "", xml)
 
+                        xml = ElementTree.canonicalize(xml, strip_text=True)
+
                         newepub.writestr(file, xml)
                     elif file.endswith("ncx"):
                         xml = epub.open(file).read().decode("utf8")
