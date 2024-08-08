@@ -116,6 +116,14 @@ def crush_epub(
                             flags=re.I,
                         )
 
+                        # Remove calibre metadata
+                        xml = re.sub(
+                            '<meta\ .*?name="calibre:.*?">.*?</meta>',
+                            '',
+                            xml,
+                            flags=re.I|re.DOTALL,
+                        )
+
                         if not images:
                             xml = re.sub('properties="svg"', "", xml)
 
