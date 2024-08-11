@@ -308,6 +308,18 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     # Remove the default namespace definition
     xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
+    # Replace HTML entities not defined in XML
+    entities = {
+        ("reg", 174),
+        ("copy", 169),
+        ("lsquo", 8216),
+        ("rsquo", 8217),
+        ("ldquo", 8220),
+        ("rdquo", 8221),
+    }
+
+    for name, dec in entities:
+        xml = xml.replace(f"&{name};", f"&#{dec};")
     xml = xml.replace("&nbsp;", " ")
     xml = ElementTree.canonicalize(
         xml,
