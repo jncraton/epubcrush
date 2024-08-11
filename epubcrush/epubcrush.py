@@ -211,7 +211,7 @@ def get_nonanchor_text(xml: str):
     'world'
     """
 
-    xml = re.sub("<a.*?>.*?</a>", "", xml, flags=re.I | re.M | re.DOTALL)
+    xml = re.sub("<a[ >].*?</a>", "", xml, flags=re.I | re.M | re.DOTALL)
     xml = re.sub("<.*?>", "", xml, flags=re.I | re.M | re.DOTALL)
     xml = re.sub("[\n\r\t ]+", " ", xml, flags=re.M)
 
