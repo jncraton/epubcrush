@@ -288,12 +288,12 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
 
     exclude_attrs = []
 
-    # Remove text from pages that are mostly links
+    # Remove text from pages that are mostly links to purge index pages
     anchors = re.findall("<a", xml, flags=re.I)
     text = get_nonanchor_text(xml)
     anchors_per_char = len(anchors) / max(1, len(text))
     is_epub_toc = re.search('type="toc"', xml, flags=re.I)
-    if anchors_per_char > 0.02 and not is_epub_toc:
+    if anchors_per_char > 0.10 and not is_epub_toc:
         exclude_tags += text_tags
 
     # Blank excluded pages (titlepage, dedication, etc)
