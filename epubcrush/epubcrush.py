@@ -343,6 +343,7 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
     )
 
     # Strip whitespace
+    xml = re.sub("[\r\n]+ +", "\n", xml, flags=re.M)
     xml = re.sub("[\r\n\t]+", "\n", xml, flags=re.M)
 
     return xml
