@@ -75,9 +75,7 @@ def get_renames(filelist):
 
     cur = 0
     for f in filelist:
-        if (f.endswith('minetype') or
-           f.endswith('opf') or
-           f.endswith('ncx')):
+        if f.endswith("minetype") or f.endswith("opf") or f.endswith("ncx"):
             continue
 
         m = re.match(r"(.*/)[^/]+(\.[A-z0-9]+)", f)
@@ -163,21 +161,24 @@ def crush_epub(
                         ]
 
                         for s in strip_meta:
-                            xml = re.sub(f"<(opf:)?meta {s}.*?</(opf:)?meta>",
-                                         "", xml, re.I | re.DOTALL)
+                            xml = re.sub(
+                                f"<(opf:)?meta {s}.*?</(opf:)?meta>",
+                                "",
+                                xml,
+                                re.I | re.DOTALL,
+                            )
 
                         strip_tag = [
-                            'dc:rights',
-                            'dc:identifier',
-                            'dc:language',
-                            'dc:subject',
-                            'dc:source',
+                            "dc:rights",
+                            "dc:identifier",
+                            "dc:language",
+                            "dc:subject",
+                            "dc:source",
                         ]
 
                         # Remove most metadata
                         for s in strip_tag:
-                            xml = re.sub(f"<{s}.*?</{s}>",
-                                         "", xml, re.I | re.DOTALL)
+                            xml = re.sub(f"<{s}.*?</{s}>", "", xml, re.I | re.DOTALL)
 
                         if not images:
                             xml = re.sub('properties="svg"', "", xml)
