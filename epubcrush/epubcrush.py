@@ -108,8 +108,8 @@ def crush_epub(
                         xml = ElementTree.canonicalize(xml)
 
                         xml = re.sub(
-                            f"<(opf:)?item.*href="
-                            f"\"[^\"]*(?<!{')(?<!'.join(allowed_files)})\".*>"
+                            f"<(opf:)?item[^>]*href="
+                            f"\"[^\"]*(?<!{')(?<!'.join(allowed_files)})\"[^>]*>"
                             f"</(opf:)?item>",
                             "",
                             xml,
