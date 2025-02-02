@@ -62,6 +62,32 @@ def modernize_childrens(text):
     return "".join(tokens)
 
 
+def get_renames(filelist):
+    """
+    >>> get_renames(['OEBPS/toc.ncx'])
+    {}
+
+    >>> get_renames(['OEBPS/1234-56.xhtml'])
+    {'OEBPS/1234-56.xhtml': 'OEBPS/0.xhtml'}
+    """
+
+    renames = {}
+
+    cur = 0
+    for f in filelist:
+        if (f.endswith('minetype') or
+           f.endswith('opf') or
+           f.endswith('ncx')):
+            continue
+
+        m = re.match(r"(.*/)[^/]+(\.[A-z0-9]+)", f)
+        if m:
+            renames[f] = f"{m[1]}{cur}{m[2]}"
+            cur += 1
+
+    return renames
+
+
 def crush_epub(
     filename: str, images=False, quality=100, styles=False, fonts=False, modernize=False
 ) -> None:
