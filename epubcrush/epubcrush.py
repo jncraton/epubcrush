@@ -124,6 +124,35 @@ def crush_epub(
                             flags=re.I | re.DOTALL,
                         )
 
+                        strip_meta = [
+                            'property="dcterms:modified"',
+                            'property="role"',
+                            'property="file-as"',
+                            'property="schema:accessMode"',
+                            'property="schema:accessibilityFeature"',
+                            'property="schema:accessibilityHazard"',
+                            'property="schema:accessModeSufficient"',
+                            'property="schema:accessModeSufficient"',
+                            'property="schema:accessibilitySummary"',
+                        ]
+
+                        for s in strip_meta:
+                            xml = re.sub(f"<(opf:)?meta {s}.*?</(opf:)?meta>",
+                                         "", xml, re.I | re.DOTALL)
+
+                        strip_tag = [
+                            'dc:rights',
+                            'dc:identifier',
+                            'dc:language',
+                            'dc:subject',
+                            'dc:source',
+                        ]
+
+                        # Remove most metadata
+                        for s in strip_tag:
+                            xml = re.sub(f"<{s}.*?</{s}>",
+                                         "", xml, re.I | re.DOTALL)
+
                         if not images:
                             xml = re.sub('properties="svg"', "", xml)
 
