@@ -69,21 +69,52 @@ def get_renames(filelist):
 
     >>> get_renames(['OEBPS/1234-56.xhtml'])
     {'OEBPS/1234-56.xhtml': 'OEBPS/0.xhtml'}
+
+    >>> get_renames(['a.xml'])
+    {'a.xml': '0.xml'}
     """
 
     renames = {}
 
     cur = 0
     for f in filelist:
+        if f == 'META-INF/container.xml':
+            continue
+
         if f.endswith("minetype") or f.endswith("opf") or f.endswith("ncx"):
             continue
 
-        m = re.match(r"(.*/)[^/]+(\.[A-z0-9]+)", f)
+        m = re.match(r"(.*?)[^/]+(\.[A-z0-9]+)", f)
         if m:
             renames[f] = f"{m[1]}{cur}{m[2]}"
             cur += 1
 
     return renames
+
+
+def rename_references(renames, xml, file):
+    """
+    >>> rename_references({'a.png': 'b.png'}, '<img src="a.png"', "/a.htm")
+    '<img src="b.png"'
+
+    >>> rename_references({'a.htm.xml': '1.xml'}, '<content src="a.htm.xml"', "a")
+    '<content src="1.xml"'
+
+    >>> rename_references({'a.e': '1.e'}, '<a b="a.e#f">', "a.htm")
+    '<a b="1.e#f">'
+
+    >>> rename_references({'a.e': '1.e'}, '<a b="a.e"><c d="a.e">', "a")
+    '<a b="1.e"><c d="1.e">'
+
+    >>> rename_references({'d/a.e': 'd/1.e'}, '<a b="a.e#f">', "a.htm")
+    '<a b="1.e#f">'
+
+    """
+
+    for r in renames:
+        xml = xml.replace(f'="{r}', f'="{renames[r]}')
+
+    return xml
 
 
 def crush_epub(
@@ -115,17 +146,21 @@ def crush_epub(
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
         with ZipFile(backup_filename) as epub:
+            renames = get_renames(epub.namelist())
+            print(renames)
             for file in epub.namelist():
+                newfile = renames.get(file, file)
                 if re.match(file_allow, file, flags=re.I):
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
 
                         xml = clean_xml(xml, images, styles)
+                        xml = rename_references(renames, xml)
 
                         if modernize:
                             xml = modernize_childrens(xml)
 
-                        newepub.writestr(file, xml)
+                        newepub.writestr(newfile, xml)
                     elif file.endswith("opf"):
                         xml = epub.open(file).read().decode("utf8")
 
@@ -183,9 +218,10 @@ def crush_epub(
                         if not images:
                             xml = re.sub('properties="svg"', "", xml)
 
+                        xml = rename_references(renames, xml)
                         xml = ElementTree.canonicalize(xml, strip_text=True)
 
-                        newepub.writestr(file, xml)
+                        newepub.writestr(newfile, xml)
                     elif file.endswith("ncx"):
                         xml = epub.open(file).read().decode("utf8")
 
@@ -198,7 +234,11 @@ def crush_epub(
                             flags=re.I | re.M | re.DOTALL,
                         )
 
-                        newepub.writestr(file, xml)
+                        print(file, newfile, len(xml), renames)
+                        xml = rename_references(renames, xml)
+                        print(file, newfile, len(xml))
+                        open('latest.ncx', 'w').write(xml)
+                        newepub.writestr(newfile, xml)
                     elif quality < 100 and re.match(r".*(jpeg|jpg)", file, flags=re.I):
                         jpeg = epub.extract(file, "/tmp")
                         compressed_jpeg = f"{jpeg}.comp.jpeg"
@@ -228,7 +268,7 @@ def crush_epub(
                                     jpeg,
                                 ]
                             )
-                        newepub.write(compressed_jpeg, file)
+                        newepub.write(compressed_jpeg, newfile)
                     elif quality < 100 and re.match(r".*png", file, flags=re.I):
                         png = epub.extract(file, "/tmp")
                         run(
@@ -245,13 +285,13 @@ def crush_epub(
                                 png,
                             ]
                         )
-                        newepub.write(png, file)
+                        newepub.write(png, newfile)
                     elif file == "mimetype":
                         newepub.writestr(
-                            file, epub.read(file), compress_type=ZIP_STORED
+                            newfile, epub.read(file), compress_type=ZIP_STORED
                         )
                     else:
-                        newepub.writestr(file, epub.read(file))
+                        newepub.writestr(newfile, epub.read(file))
 
 
 def get_nonanchor_text(xml: str):
