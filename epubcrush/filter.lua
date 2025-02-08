@@ -1,6 +1,5 @@
 -- Remove all images
 function Image(el)
-  print("Removing image", el)
   return {}
 end
 
@@ -8,8 +7,6 @@ end
 -- Remove classes from all spans
 function Span(el)
   if #el.content == 0 then
-    print("Removing span", el)
-    print(#el.content)
     return {}
   end
 
@@ -19,7 +16,6 @@ end
 
 -- Unwrap divs
 function Div(el)
-  print("Unwrapping fenced div", el)
   return el.content
 end
 
