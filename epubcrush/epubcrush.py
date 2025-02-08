@@ -4,6 +4,39 @@ import re
 from xml.etree import ElementTree
 import argparse
 import os
+import importlib.resources
+
+
+def remaster(src, dst):
+    """ Remasters an epub
+
+    This function will:
+
+    1. Convert the epub to plain text
+        - Remove nearly all metadata
+        - Remove all images and styles
+    2. Rebuild the epub from the plain text
+    """
+
+    filterpath = importlib.resources.files('epubcrush').joinpath('filter.lua')
+
+    run([
+        "pandoc",
+        f"--lua-filter={filterpath}",
+        src,
+        "--standalone",
+        "--to",
+        "markdown-yaml_metadata_block",
+        "-o",
+        f"{src}.bak.md",
+    ])
+
+    run([
+        "pandoc",
+        f"{src}.bak.md",
+        "-o",
+        dst,
+    ])
 
 
 def modernize_childrens(text):
@@ -112,6 +145,10 @@ def crush_epub(
 
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
+
+    if not images and not styles and not fonts:
+        remaster(backup_filename, f"{filename}-remastered.bak.epub")
+        backup_filename = f"{filename}-remastered.bak.epub"
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
         with ZipFile(backup_filename) as epub:
