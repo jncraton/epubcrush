@@ -39,9 +39,6 @@ function Link(el)
   return el.content
 end
 
-function Header(el)
-end
-
 
 -- Ensure headers start at level 1
 -- Clear all classes from headers
