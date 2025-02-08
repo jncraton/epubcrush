@@ -34,6 +34,7 @@ def remaster(src, dst):
     run([
         "pandoc",
         f"{src}.bak.md",
+        "--to=epub",
         "-o",
         dst,
     ])
