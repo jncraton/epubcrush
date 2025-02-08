@@ -143,6 +143,7 @@ def crush_epub(
         allowed_files += ["ttf", "woff", "otf"]
 
     file_allow = f"(.*{'|.*'.join(allowed_files)})$"
+    file_disallow = {'META-INF/com.apple.ibooks.display-options.xml', }
 
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
@@ -154,6 +155,9 @@ def crush_epub(
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
         with ZipFile(backup_filename) as epub:
             for file in epub.namelist():
+                if file in file_disallow:
+                    continue
+
                 if re.match(file_allow, file, flags=re.I):
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
