@@ -53,7 +53,8 @@ for i, url in enumerate(urls):
     subprocess.run(
         [
             "python3",
-            "epubcrush/epubcrush.py",
+            "-m"
+            "epubcrush.epubcrush",
             "--fast",
             "--images",
             "--quality=100",
@@ -66,7 +67,8 @@ for i, url in enumerate(urls):
     subprocess.run(
         [
             "python3",
-            "epubcrush/epubcrush.py",
+            "-m"
+            "epubcrush.epubcrush",
             "--fast",
             "--images",
             "--quality=50",
@@ -75,7 +77,7 @@ for i, url in enumerate(urls):
     )
     images_50_size = os.stat(filename).st_size // 1000
 
-    subprocess.run(["python3", "epubcrush/epubcrush.py", "--fast", filename])
+    subprocess.run(["python3", "-m", "epubcrush.epubcrush", "--fast", filename])
     check(filename)
     new_size = os.stat(filename).st_size // 1000
 
