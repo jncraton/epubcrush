@@ -7,8 +7,8 @@ import os
 import importlib.resources
 
 
-def remaster(src, dst):
-    """ Remasters an epub
+def remaster(src, dst, edit=False):
+    """Remasters an epub
 
     This function will:
 
@@ -18,26 +18,37 @@ def remaster(src, dst):
     2. Rebuild the epub from the plain text
     """
 
-    filterpath = importlib.resources.files('epubcrush').joinpath('filter.lua')
+    filterpath = importlib.resources.files("epubcrush").joinpath("filter.lua")
 
-    run([
-        "pandoc",
-        f"--lua-filter={filterpath}",
-        src,
-        "--standalone",
-        "--to",
-        "markdown-yaml_metadata_block",
-        "-o",
-        f"{src}.bak.md",
-    ])
+    mdfilename = f"{src}.bak.md"
 
-    run([
-        "pandoc",
-        f"{src}.bak.md",
-        "--to=epub2",
-        "-o",
-        dst,
-    ])
+    run(
+        [
+            "pandoc",
+            f"--lua-filter={filterpath}",
+            src,
+            "--standalone",
+            "--to",
+            "markdown-yaml_metadata_block",
+            "-o",
+            mdfilename,
+        ]
+    )
+
+    if edit:
+        os.system("%s %s" % (os.getenv("EDITOR"), mdfilename))
+
+    run(
+        [
+            "pandoc",
+            mdfilename,
+            "--to=epub2",
+            "-o",
+            dst,
+        ]
+    )
+
+    os.unlink(mdfilename)
 
 
 def modernize_childrens(text):
@@ -121,7 +132,13 @@ def get_renames(filelist):
 
 
 def crush_epub(
-    filename: str, images=False, quality=100, styles=False, fonts=False, modernize=False
+    filename: str,
+    images=False,
+    quality=100,
+    styles=False,
+    fonts=False,
+    modernize=False,
+    edit=False,
 ) -> None:
     allowed_files = [
         "mimetype",
@@ -143,13 +160,15 @@ def crush_epub(
         allowed_files += ["ttf", "woff", "otf"]
 
     file_allow = f"(.*{'|.*'.join(allowed_files)})$"
-    file_disallow = {'META-INF/com.apple.ibooks.display-options.xml', }
+    file_disallow = {
+        "META-INF/com.apple.ibooks.display-options.xml",
+    }
 
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
 
     if not images and not styles and not fonts:
-        remaster(backup_filename, f"{filename}-remastered.bak.epub")
+        remaster(backup_filename, f"{filename}-remastered.bak.epub", edit)
         backup_filename = f"{filename}-remastered.bak.epub"
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
@@ -465,6 +484,12 @@ def main() -> None:
         help="Attempt to modernize language of older children's literature",
     )
     ap.add_argument(
+        "--edit",
+        action="store_true",
+        help="Open an editor to modify intermediate markdown. "
+        "Only available when removing all media.",
+    )
+    ap.add_argument(
         "--images",
         "-i",
         action="store_true",
@@ -500,6 +525,7 @@ def main() -> None:
             quality=args.quality,
             fonts=args.fonts,
             modernize=args.modernize,
+            edit=args.edit,
         )
         if not args.fast:
             repack(filename)
