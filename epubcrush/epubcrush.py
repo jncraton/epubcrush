@@ -7,7 +7,7 @@ import os
 import importlib.resources
 
 
-def remaster(src, dst, edit=False):
+def remaster(src, dst, edit=False, asciionly=False):
     """Remasters an epub
 
     This function will:
@@ -35,6 +35,17 @@ def remaster(src, dst, edit=False):
         ]
     )
 
+    if asciionly:
+        from unidecode import unidecode
+
+        with open(mdfilename) as f:
+            unicode = f.read()
+
+        asciitext = unidecode(unicode)
+
+        with open(mdfilename, "w") as f:
+            f.write(asciitext)
+
     if edit:
         os.system("%s %s" % (os.getenv("EDITOR"), mdfilename))
 
@@ -42,6 +53,7 @@ def remaster(src, dst, edit=False):
         [
             "pandoc",
             mdfilename,
+            "--from=markdown" + "-smart" if asciionly else "",
             "--to=epub2",
             "-o",
             dst,
@@ -139,6 +151,7 @@ def crush_epub(
     fonts=False,
     modernize=False,
     edit=False,
+    asciionly=False,
 ) -> None:
     allowed_files = [
         "mimetype",
@@ -168,7 +181,7 @@ def crush_epub(
     os.rename(filename, backup_filename)
 
     if not images and not styles and not fonts:
-        remaster(backup_filename, f"{filename}-remastered.bak.epub", edit)
+        remaster(backup_filename, f"{filename}-remastered.bak.epub", edit, asciionly)
         backup_filename = f"{filename}-remastered.bak.epub"
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
@@ -486,8 +499,13 @@ def main() -> None:
     ap.add_argument(
         "--edit",
         action="store_true",
-        help="Open an editor to modify intermediate markdown. "
+        help="Open an editor to modify intermediate markdown."
         "Only available when removing all media.",
+    )
+    ap.add_argument(
+        "--asciionly",
+        action="store_true",
+        help="Convert to plain ascii. Only available when removing all media.",
     )
     ap.add_argument(
         "--images",
@@ -526,6 +544,7 @@ def main() -> None:
             fonts=args.fonts,
             modernize=args.modernize,
             edit=args.edit,
+            asciionly=args.asciionly,
         )
         if not args.fast:
             repack(filename)
