@@ -25,5 +25,5 @@ setuptools.setup(
         ],
     },
     install_requires=[],
-    package_data={'epubcrush': ['filter.lua']}
+    package_data={"epubcrush": ["filter.lua"]},
 )
