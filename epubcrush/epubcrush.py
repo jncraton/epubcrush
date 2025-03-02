@@ -53,7 +53,7 @@ def remaster(src, dst, edit=False, asciionly=False):
         [
             "pandoc",
             mdfilename,
-            "--from=markdown" + "-smart" if asciionly else "",
+            "--from=markdown" + ("-smart" if asciionly else ""),
             "--to=epub2",
             "-o",
             dst,
