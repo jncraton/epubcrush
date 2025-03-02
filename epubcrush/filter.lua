@@ -49,6 +49,7 @@ function Header(el)
     has_level_1 = true
   end
   el.classes = pandoc.List{}
+  el.attr = pandoc.Attr()
   return el
 end
 
