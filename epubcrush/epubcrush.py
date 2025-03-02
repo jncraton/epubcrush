@@ -7,7 +7,7 @@ import os
 import importlib.resources
 
 
-def remaster(src, dst, edit=False, asciionly=False):
+def remaster(src, edit=False, asciionly=False):
     """Remasters an epub
 
     This function will:
@@ -56,7 +56,7 @@ def remaster(src, dst, edit=False, asciionly=False):
             "--from=markdown" + ("-smart" if asciionly else ""),
             "--to=epub2",
             "-o",
-            dst,
+            src,
         ]
     )
 
@@ -181,8 +181,7 @@ def crush_epub(
     os.rename(filename, backup_filename)
 
     if not images and not styles and not fonts:
-        remaster(backup_filename, f"{filename}-remastered.bak.epub", edit, asciionly)
-        backup_filename = f"{filename}-remastered.bak.epub"
+        remaster(backup_filename, edit, asciionly)
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
         with ZipFile(backup_filename) as epub:
