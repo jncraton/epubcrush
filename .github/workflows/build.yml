@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 mypy
+          pip install flake8 mypy unidecode
           sudo apt install -y pandoc advancecomp libjpeg-turbo-progs pngquant
       - name: Lint
         run: make lint
