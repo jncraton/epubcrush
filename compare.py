@@ -53,7 +53,7 @@ for i, url in enumerate(urls):
     subprocess.run(
         [
             "python3",
-            "-m"
+            "-m",
             "epubcrush",
             "--fast",
             "--images",
@@ -67,7 +67,7 @@ for i, url in enumerate(urls):
     subprocess.run(
         [
             "python3",
-            "-m"
+            "-m",
             "epubcrush",
             "--fast",
             "--images",
