@@ -471,6 +471,15 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         flags=re.M | re.I | re.DOTALL,
     )
 
+    # Normalize head
+    if not styles and False:
+        xml = re.sub(
+            "<head>.*?</head>",
+            "<head><title>t</title></head>",
+            xml,
+            flags=re.DOTALL | re.M | re.I,
+        )
+
     # Strip whitespace
     xml = re.sub("[\r\n]+ +", "\n", xml, flags=re.M)
     xml = re.sub("[\r\n\t]+", "\n", xml, flags=re.M)
