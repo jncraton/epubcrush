@@ -1,13 +1,9 @@
 import urllib.request
 import os
 import subprocess
+import time
 
 urls = [
-    "https://standardebooks.org/ebooks/james-joyce/poetry/downloads/"
-    "james-joyce_poetry.epub",
-    "https://standardebooks.org/ebooks/"
-    "karl-marx_friedrich-engels/the-communist-manifesto/samuel-moore/downloads/"
-    "karl-marx_friedrich-engels_the-communist-manifesto_samuel-moore.epub",
     "https://www.gutenberg.org/cache/epub/41/pg41-images-3.epub",
 ]
 
@@ -87,3 +83,5 @@ for i, url in enumerate(urls):
         f"| {images_50_size:4}kB ({(images_50_size/original_size):3.0%}) "
         f"| {new_size:4}kB ({(new_size/original_size):3.0%}) |"
     )
+
+    time.sleep(1)
