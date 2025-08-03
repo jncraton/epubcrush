@@ -152,6 +152,7 @@ def crush_epub(
     modernize=False,
     edit=False,
     asciionly=False,
+    remaster=False,
 ) -> None:
     allowed_files = [
         "mimetype",
@@ -180,7 +181,7 @@ def crush_epub(
     backup_filename = f"{filename}.bak.epub"
     os.rename(filename, backup_filename)
 
-    if not images and not styles and not fonts:
+    if remaster and not images and not styles and not fonts:
         remaster(backup_filename, edit, asciionly)
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
@@ -534,6 +535,11 @@ def main() -> None:
         help="Keep fonts in output",
     )
     ap.add_argument(
+        "--remaster",
+        action="store_true",
+        help="Remaster via a plain text round trip through Pandoc",
+    )
+    ap.add_argument(
         "--quality",
         "-q",
         type=int,
@@ -553,6 +559,7 @@ def main() -> None:
             modernize=args.modernize,
             edit=args.edit,
             asciionly=args.asciionly,
+            remaster=args.remaster,
         )
         if not args.fast:
             repack(filename)
