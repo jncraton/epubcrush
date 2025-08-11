@@ -7,7 +7,7 @@ import os
 import importlib.resources
 
 
-def remaster(src, edit=False, asciionly=False):
+def roundtrip_as_plain(src, edit=False, asciionly=False):
     """Remasters an epub
 
     This function will:
@@ -182,7 +182,7 @@ def crush_epub(
     os.rename(filename, backup_filename)
 
     if remaster and not images and not styles and not fonts:
-        remaster(backup_filename, edit, asciionly)
+        roundtrip_as_plain(backup_filename, edit, asciionly)
 
     with ZipFile(filename, "w", compression=ZIP_DEFLATED, compresslevel=9) as newepub:
         with ZipFile(backup_filename) as epub:
