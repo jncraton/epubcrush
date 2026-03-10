@@ -246,6 +246,9 @@ def crush_epub(
                             "dc:rights",
                             "dc:identifier",
                             "dc:subject",
+                            "dc:publisher",
+                            "dc:date",
+                            "dc:description",
                         ]
 
                         # Remove most metadata
