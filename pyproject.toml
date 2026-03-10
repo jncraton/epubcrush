@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epubcrush"
+version = "4.0.1"
+description = "Compress EPUB files"
+readme = { file = "readme.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+
+authors = [
+  { name = "Jon Craton", email = "jon@joncraton.com" }
+]
+
+license = { file = "license.md" }
+
+urls = { "Homepage" = "https://github.com/jncraton/epubcrush" }
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+dependencies = []
+
+[project.scripts]
+epubcrush = "epubcrush:main"
+
+[tool.setuptools]
+packages = { find = {} }
+
+[tool.setuptools.package-data]
+"epubcrush" = ["filter.lua"]
