@@ -245,7 +245,6 @@ def crush_epub(
                         strip_tag = [
                             "dc:rights",
                             "dc:identifier",
-                            "dc:language",
                             "dc:subject",
                             "dc:source",
                         ]
