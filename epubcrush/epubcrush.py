@@ -215,6 +215,14 @@ def crush_epub(
                             flags=re.I,
                         )
 
+                        # Remove all links
+                        xml = re.sub(
+                            '<link.*?>.*?</link>',
+                            "",
+                            xml,
+                            flags=re.I | re.DOTALL,
+                        )
+
                         # Remove all metatags
                         # NOTE: This makes epubs fail validation,
                         # but readers generally work fine
