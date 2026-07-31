@@ -205,6 +205,7 @@ def crush_epub(
 
                         xml = ElementTree.canonicalize(xml)
 
+                        # Remove refs to disallowed files
                         xml = re.sub(
                             f"<(opf:)?item[^>]*href="
                             f"\"[^\"]*(?<!{')(?<!'.join(allowed_files)})\"[^>]*>"
