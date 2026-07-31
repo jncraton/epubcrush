@@ -194,7 +194,7 @@ def crush_epub(
                     if file.endswith("html") or file.endswith("htm"):
                         xml = epub.open(file).read().decode("utf8")
 
-                        xml = clean_xml(xml, images, styles)
+                        xml = clean_xml(xml, images, styles, asciionly)
 
                         if modernize:
                             xml = modernize_childrens(xml)
@@ -342,7 +342,7 @@ def get_nonanchor_text(xml: str):
     return xml
 
 
-def clean_xml(xml: str, images=False, styles=False) -> str:
+def clean_xml(xml: str, images=False, styles=False, asciionly=False) -> str:
     """Cleans unwanted XML tags
 
     >>> clean_xml('<html></html>')
@@ -450,6 +450,12 @@ def clean_xml(xml: str, images=False, styles=False) -> str:
         exclude_tags=exclude_tags,
         exclude_attrs=exclude_attrs,
     )
+
+    if asciionly:
+        from unidecode import unidecode
+
+        xml = unidecode(xml)
+
     # Ensure correct namespace definition
     xml = re.sub(r"<html", '<html xmlns="http://www.w3.org/1999/xhtml"', xml)
 
