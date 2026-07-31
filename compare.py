@@ -12,10 +12,12 @@ urls = [
 ]
 
 print(
-    "| File | Original |  txt  | txtz  | Images q=100 | Images q=50  |  No Images   |"
+    "| File | Original |  txt  | txtz  | Images q=100 "
+    "| Images q=50  |  No Images   | ASCII Only   |"
 )
 print(
-    "| ---- | -------- | ----- | ----- | ------------ | ------------ | ------------ |"
+    "| ---- | -------- | ----- | ----- | ------------ "
+    "| ------------ | ------------ | ------------ |"
 )
 
 
