@@ -251,7 +251,7 @@ def crush_epub(
                             "dc:description",
                         ]
 
-                        # Remove most metadata
+                        # Remove most dc metadata
                         for s in strip_tag:
                             xml = re.sub(f"<{s}.*?</{s}>", "", xml, re.I | re.DOTALL)
 
