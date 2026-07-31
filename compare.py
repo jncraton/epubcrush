@@ -75,13 +75,13 @@ for i, url in enumerate(urls):
 
     subprocess.run(["python3", "-m", "epubcrush", "--fast", filename])
     check(filename)
-    new_size = os.stat(filename).st_size // 1000
+    new_size = os.stat(filename).st_size // 1
 
     print(
         f"| {i+1:4} | {original_size:6}kB | {txt_size:3}kB | {txtz_size:3}kB "
         f"| {images_100_size:4}kB ({(images_100_size/original_size):3.0%}) "
         f"| {images_50_size:4}kB ({(images_50_size/original_size):3.0%}) "
-        f"| {new_size:4}kB ({(new_size/original_size):3.0%}) |"
+        f"| {new_size:4}B ({(new_size/original_size/1000):3.0%}) |"
     )
 
     time.sleep(1)
