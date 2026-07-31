@@ -176,6 +176,7 @@ def crush_epub(
     file_allow = f"(.*{'|.*'.join(allowed_files)})$"
     file_disallow = {
         "META-INF/com.apple.ibooks.display-options.xml",
+        "onix.xml",
     }
 
     backup_filename = f"{filename}.bak.epub"
