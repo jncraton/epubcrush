@@ -5,6 +5,10 @@ import time
 
 urls = [
     "https://www.gutenberg.org/cache/epub/41/pg41-images-3.epub",
+    "https://standardebooks.org/ebooks/"
+    "karl-marx_friedrich-engels/the-communist-manifesto/samuel-moore/downloads/"
+    "karl-marx-friedrich-engels_the-communist-manifesto_samuel-moore.epub"
+    "?source=download",
 ]
 
 print(
