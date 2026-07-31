@@ -241,6 +241,8 @@ def crush_epub(
                             "dc:publisher",
                             "dc:date",
                             "dc:description",
+                            "dc:contributor",
+                            "dc:source",
                         ]
 
                         for s in strip_tag:
