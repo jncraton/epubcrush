@@ -215,34 +215,17 @@ def crush_epub(
                             flags=re.I,
                         )
 
-                        # Remove calibre metadata
+                        # Remove all metatags
+                        # NOTE: This makes epubs fail validation,
+                        # but readers generally work fine
                         xml = re.sub(
-                            '<meta .*?name="calibre:.*?">.*?</meta>',
+                            '<(opf:)?meta .*?>.*?</(opf:)?meta>',
                             "",
                             xml,
                             flags=re.I | re.DOTALL,
                         )
 
-                        strip_meta = [
-                            'property="dcterms:modified"',
-                            'property="role"',
-                            'property="file-as"',
-                            'property="schema:accessMode"',
-                            'property="schema:accessibilityFeature"',
-                            'property="schema:accessibilityHazard"',
-                            'property="schema:accessModeSufficient"',
-                            'property="schema:accessModeSufficient"',
-                            'property="schema:accessibilitySummary"',
-                        ]
-
-                        for s in strip_meta:
-                            xml = re.sub(
-                                f"<(opf:)?meta {s}.*?</(opf:)?meta>",
-                                "",
-                                xml,
-                                re.I | re.DOTALL,
-                            )
-
+                        # Remove most dc metadata
                         strip_tag = [
                             "dc:rights",
                             "dc:identifier",
@@ -252,7 +235,6 @@ def crush_epub(
                             "dc:description",
                         ]
 
-                        # Remove most dc metadata
                         for s in strip_tag:
                             xml = re.sub(f"<{s}.*?</{s}>", "", xml, re.I | re.DOTALL)
 
